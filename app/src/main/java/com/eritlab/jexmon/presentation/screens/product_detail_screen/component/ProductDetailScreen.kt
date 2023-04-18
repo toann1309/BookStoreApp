@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,30 +86,6 @@ fun ProductDetailScreen(
                         contentDescription = null
                     )
                 }
-                Row(
-                    modifier = Modifier
-                        .width(70.dp)
-                        .background(color = Color.White, shape = RoundedCornerShape(8.dp))
-                        .padding(3.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        4.dp,
-                        Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = product.rating.toString(),
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.star_icon),
-                        contentDescription = null
-                    )
-                }
-
-
             }
             //image
             Image(
@@ -177,48 +154,12 @@ fun ProductDetailScreen(
                         Text(
                             text = product.description,
                             fontSize = 16.sp,
-                            color = MaterialTheme.colors.TextColor
+                            color = MaterialTheme.colors.TextColor,
+
                         )
                         Spacer(modifier = Modifier.height(25.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(5.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "See more Details",
-                                color = MaterialTheme.colors.PrimaryColor,
-                                fontSize = 16.sp,
-
-                                )
-                            Icon(
-                                painter = painterResource(id = R.drawable.arrow_right),
-                                contentDescription = "",
-                                tint = MaterialTheme.colors.PrimaryColor
-                            )
-                        }
-
-
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Image(
-                            painter = painterResource(id = R.drawable.heart_icon_2),
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(Color.Red),
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(
-                                    Color(0x75F44336),
-                                    shape = RoundedCornerShape(
-                                        topStart = 20.dp,
-                                        bottomStart = 20.dp
-                                    )
-                                )
-                                .padding(10.dp)
-                                .weight(1f)
-                        )
                     }
                 }
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -227,29 +168,9 @@ fun ProductDetailScreen(
                             shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                         )
                         .padding(15.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                        items(product.colors.size) {
-                            Box(
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .border(
-                                        width = 1.dp,
-                                        color = if (colorSelected == product.colors[it]) MaterialTheme.colors.PrimaryColor else Color.Transparent,
-                                        shape = CircleShape
-                                    )
-                                    .padding(5.dp)
-                                    .background(color = product.colors[it], shape = CircleShape)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        colorSelected = product.colors[it]
-                                    }
-                            )
-                        }
-                    }
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -302,7 +223,7 @@ fun ProductDetailScreen(
                 }
 
 
-                Box(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
@@ -311,7 +232,8 @@ fun ProductDetailScreen(
                             shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                         )
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)),
-                    contentAlignment = Alignment.Center
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Button(
                         colors = ButtonDefaults.buttonColors(
@@ -319,7 +241,7 @@ fun ProductDetailScreen(
                             contentColor = Color.White
                         ),
                         modifier = Modifier
-                            .width(200.dp)
+                            .width(150.dp)
                             .padding(top = 30.dp, bottom = 30.dp)
                             .height(60.dp)
                             .clip(RoundedCornerShape(15.dp)),
@@ -333,6 +255,28 @@ fun ProductDetailScreen(
                         },
                     ) {
                         Text(text = "Add to Cart", fontSize = 16.sp)
+                    }
+                    Spacer(modifier = Modifier.width(1.dp))
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.PrimaryColor,
+                            contentColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .width(150.dp)
+                            .padding(top = 30.dp, bottom = 30.dp)
+                            .height(60.dp)
+                            .clip(RoundedCornerShape(15.dp)),
+                        onClick = {
+                            Toast.makeText(
+                                context,
+                                "Go to checkout",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        },
+                    ) {
+                        Text(text = "Buy now", fontSize = 16.sp)
                     }
                 }
 

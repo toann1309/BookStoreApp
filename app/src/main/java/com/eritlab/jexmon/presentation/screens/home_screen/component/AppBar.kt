@@ -30,7 +30,6 @@ fun AppBar(
     navController: NavController,
     isVisible: Boolean,
     searchCharSequence: (String) -> Unit,
-    onNotificationIconClick: () -> Unit,
     onCartIconClick: () -> Unit
 ) {
     var typedText by remember {
@@ -41,7 +40,8 @@ fun AppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 15.dp, end = 15.dp, top = 30.dp, bottom = 30.dp),
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TextField(
                 value = typedText,
@@ -89,47 +89,7 @@ fun AppBar(
                     contentDescription = "Cart Icon"
                 )
             }
-            ConstraintLayout() {
-                val (notification, notificationCounter) = createRefs()
-
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colors.PrimaryLightColor)
-                        .constrainAs(notification) {}
-                        .clickable {
-                            onNotificationIconClick()
-                        },
-
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.bell),
-                        contentDescription = "Notification Icon"
-                    )
-
-                }
-                //notification count
-                Box(
-                    modifier = Modifier
-                        .size(20.dp)
-                        .background(color = Color.Red, shape = CircleShape)
-                        .padding(3.dp)
-                        .constrainAs(notificationCounter) {
-                            top.linkTo(notification.top)
-                            end.linkTo(notification.end)
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "3", fontSize = 11.sp, color = Color.White)
-                }
-
-            }
-
-
         }
     }
-
 
 }

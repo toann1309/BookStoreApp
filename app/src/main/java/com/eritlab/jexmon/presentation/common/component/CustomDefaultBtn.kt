@@ -26,7 +26,7 @@ fun CustomDefaultBtn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 30.dp, bottom = 30.dp)
-            .height(55.dp)
+            .height(50.dp)
             .clip(RoundedCornerShape(shapeSize.dp)),
         onClick = {
             onClick()

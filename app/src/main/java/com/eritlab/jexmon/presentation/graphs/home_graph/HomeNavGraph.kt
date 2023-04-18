@@ -12,7 +12,6 @@ import androidx.navigation.compose.rememberNavController
 import com.eritlab.jexmon.presentation.graphs.Graph
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.graphs.detail_graph.detailNavGraph
-import com.eritlab.jexmon.presentation.screens.conversation_screen.component.ConversationScreen
 import com.eritlab.jexmon.presentation.screens.dashboard_screen.component.DashboardScreen
 import com.eritlab.jexmon.presentation.screens.favourite_screen.component.FavouriteScreen
 import com.eritlab.jexmon.presentation.screens.profile_screen.component.ProfileScreen
@@ -30,10 +29,9 @@ fun HomeNavGraph(navHostController: NavHostController) {
             }
         }
         composable(ShopHomeScreen.FavouriteScreen.route) {
-            FavouriteScreen()
-        }
-        composable(ShopHomeScreen.ConversationScreen.route) {
-            ConversationScreen()
+            FavouriteScreen(){productId ->
+                navHostController.navigate(DetailScreen.ProductDetailScreen.route + "/${productId}")
+            }
         }
         composable(ShopHomeScreen.ProfileScreen.route) {
             ProfileScreen() {

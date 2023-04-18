@@ -2,9 +2,7 @@ package com.eritlab.jexmon.presentation.screens.sign_up_screen.component
 
 import android.util.Patterns
 import androidx.compose.animation.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -68,7 +66,8 @@ fun SignUpScreen(navController: NavController) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(30.dp),
+                    .padding(10.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
@@ -94,7 +93,7 @@ fun SignUpScreen(navController: NavController) {
 
                 }
                 Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "Register Account", fontSize = 26.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Register Account", fontSize = 26.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
                 Text(
                     text = "Complete your details or continue\nwith social media.",
                     color = MaterialTheme.colors.TextColor,
@@ -128,176 +127,6 @@ fun SignUpScreen(navController: NavController) {
 
 
                 Spacer(modifier = Modifier.height(20.dp))
-                CustomTextField(
-                    placeholder = "********",
-                    trailingIcon = R.drawable.lock,
-                    label = "Confirm Password",
-                    keyboardType = KeyboardType.Password,
-                    errorState = conPasswordErrorState,
-                    visualTransformation = PasswordVisualTransformation(),
-                    onChanged = { newPass ->
-                        confirmPass = newPass
-                    }
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-                if (emailErrorState.value) {
-                    ErrorSuggestion("Please enter valid email address.")
-                }
-                if (passwordErrorState.value) {
-                    Row() {
-                        ErrorSuggestion("Please enter valid password.")
-                    }
-                }
-                if (conPasswordErrorState.value) {
-                    ErrorSuggestion("Confirm Password miss matched.")
-                }
-                CustomDefaultBtn(shapeSize = 50f, btnText = "Continue") {
-                    //email pattern
-                    val pattern = Patterns.EMAIL_ADDRESS
-                    val isEmailValid = pattern.matcher(email.text).matches()
-                    val isPassValid = password.text.length >= 8
-                    val conPassMatch = password == confirmPass
-                    emailErrorState.value = !isEmailValid
-                    passwordErrorState.value = !isPassValid
-                    conPasswordErrorState.value = !conPassMatch
-                    if (isEmailValid && isPassValid && conPassMatch) {
-                        animate.value = !animate.value
-                    }
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 50.dp),
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            space = 10.dp,
-                            alignment = Alignment.CenterHorizontally
-                        )
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(50.dp)
-                                .background(
-                                    MaterialTheme.colors.PrimaryLightColor,
-                                    shape = CircleShape
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.google_icon),
-                                contentDescription = "Google Login Icon"
-                            )
-                        }
-                        Box(
-                            modifier = Modifier
-                                .size(50.dp)
-                                .background(
-                                    MaterialTheme.colors.PrimaryLightColor,
-                                    shape = CircleShape
-                                )
-                                .clickable {
-
-                                },
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.twitter),
-                                contentDescription = "Twitter Login Icon"
-                            )
-                        }
-                        Box(
-                            modifier = Modifier
-                                .size(50.dp)
-                                .background(
-                                    MaterialTheme.colors.PrimaryLightColor,
-                                    shape = CircleShape
-                                )
-                                .clickable {
-
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.facebook_2),
-                                contentDescription = "Facebook Login Icon"
-                            )
-                        }
-
-                    }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 30.dp)
-                            .clickable {
-
-                            },
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "By continuing you confirm that you agree",
-                            color = MaterialTheme.colors.TextColor
-                        )
-                        Row()
-                        {
-                            Text(
-                                text = "with our ",
-                                color = MaterialTheme.colors.TextColor,
-                            )
-                            Text(
-                                text = "Terms & Condition",
-                                color = MaterialTheme.colors.PrimaryColor,
-                                modifier = Modifier.clickable {
-
-                                })
-                        }
-
-                    }
-                }
-
-
-            }
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(30.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                )
-                {
-                    Box(modifier = Modifier.weight(0.7f)) {
-                        DefaultBackArrow {
-                            animate.value = !animate.value
-                        }
-                    }
-                    Box(modifier = Modifier.weight(1.0f)) {
-                        Text(
-                            text = "Sign Up",
-                            color = MaterialTheme.colors.TextColor,
-                            fontSize = 18.sp
-                        )
-                    }
-
-
-                }
-                Spacer(modifier = Modifier.height(50.dp))
-                Text(text = "Complete Profile", fontSize = 26.sp, fontWeight = FontWeight.Bold)
-                Text(
-                    text = "Complete your details or continue\nwith social media.",
-                    color = MaterialTheme.colors.TextColor,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(50.dp))
                 CustomTextField(
                     placeholder = "Enter your first name",
                     trailingIcon = R.drawable.user,
@@ -349,6 +178,17 @@ fun SignUpScreen(navController: NavController) {
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
+                if (emailErrorState.value) {
+                    ErrorSuggestion("Please enter valid email address.")
+                }
+                if (passwordErrorState.value) {
+                    Row() {
+                        ErrorSuggestion("Please enter valid password.")
+                    }
+                }
+                if (conPasswordErrorState.value) {
+                    ErrorSuggestion("Confirm Password miss matched.")
+                }
                 if (firstNameErrorState.value || lastNameErrorState.value) {
                     ErrorSuggestion("Please enter valid name.")
                 }
@@ -358,59 +198,67 @@ fun SignUpScreen(navController: NavController) {
                 if (addressErrorState.value) {
                     ErrorSuggestion("Please enter valid address.")
                 }
-
                 CustomDefaultBtn(shapeSize = 50f, btnText = "Continue") {
+                    //email pattern
+                    val pattern = Patterns.EMAIL_ADDRESS
+                    val isEmailValid = pattern.matcher(email.text).matches()
+                    val isPassValid = password.text.length >= 8
                     val isPhoneValid = phoneNumber.text.isEmpty() || phoneNumber.text.length < 4
                     val isFNameValid = firstName.text.isEmpty() || firstName.text.length < 3
                     val isLNameValid = lastName.text.isEmpty() || lastName.text.length < 3
                     val isAddressValid = address.text.isEmpty() || address.text.length < 5
+                    emailErrorState.value = !isEmailValid
+                    passwordErrorState.value = !isPassValid
                     firstNameErrorState.value = !isFNameValid
                     lastNameErrorState.value = !isLNameValid
                     addressErrorState.value = !isAddressValid
                     phoneNumberErrorState.value = !isPhoneValid
-                    if (!isFNameValid && !isLNameValid && !isAddressValid && !isPhoneValid) {
+                    if (isEmailValid && isPassValid &&!isFNameValid && !isLNameValid && !isAddressValid && !isPhoneValid) {
                         navController.navigate(AuthScreen.OTPScreen.route)
                     }
                 }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 50.dp),
-                verticalArrangement = Arrangement.Bottom
-            ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 30.dp)
-                        .clickable {
-
-                        },
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxSize()
+                        .padding(bottom = 50.dp),
+                    verticalArrangement = Arrangement.Bottom
                 ) {
-                    Text(
-                        text = "By continuing you confirm that you agree",
-                        color = MaterialTheme.colors.TextColor
-                    )
-                    Row()
-                    {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 30.dp)
+                            .clickable {
+
+                            },
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
-                            text = "with our ",
+                            text = "By continuing you confirm that you agree",
                             color = MaterialTheme.colors.TextColor,
+                            fontSize = 12.sp
                         )
-                        Text(
-                            text = "Terms & Condition",
-                            color = MaterialTheme.colors.PrimaryColor,
-                            modifier = Modifier.clickable {
+                        Row()
+                        {
+                            Text(
+                                text = "with our ",
+                                color = MaterialTheme.colors.TextColor,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "Terms & Condition",
+                                color = MaterialTheme.colors.PrimaryColor,
+                                fontSize = 12.sp,
+                                modifier = Modifier.clickable {
 
-                            })
+                                })
+                        }
+
                     }
-
                 }
+
+
             }
-
-
         }
     }
 }

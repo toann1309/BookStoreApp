@@ -2,15 +2,14 @@ package com.eritlab.jexmon.presentation.screens.sign_in_screen.component
 
 
 import android.util.Patterns
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,12 +51,16 @@ fun LoginScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(30.dp),
+            .padding(10.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .height(56.dp)
+                .fillMaxWidth()
+                .offset(y=0.dp)
+                .padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         )
@@ -118,18 +121,8 @@ fun LoginScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(top = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.End
         ) {
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(
-                    checked = checkBox, onCheckedChange = {
-                        checkBox = it
-                    },
-                    colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colors.PrimaryColor)
-                )
-                Text(text = "Remember me", color = MaterialTheme.colors.TextColor, fontSize = 14.sp)
-            }
             Text(
                 text = "Forget Password",
                 color = MaterialTheme.colors.TextColor,
@@ -156,63 +149,6 @@ fun LoginScreen(navController: NavController) {
                 .padding(bottom = 50.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = 10.dp,
-                    alignment = Alignment.CenterHorizontally
-                )
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(50.dp)
-                        .background(
-                            MaterialTheme.colors.PrimaryLightColor,
-                            shape = CircleShape
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.google_icon),
-                        contentDescription = "Google Login Icon"
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .size(50.dp)
-                        .background(
-                            MaterialTheme.colors.PrimaryLightColor,
-                            shape = CircleShape
-                        )
-                        .clickable {
-
-                        },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.twitter),
-                        contentDescription = "Twitter Login Icon"
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .size(50.dp)
-                        .background(
-                            MaterialTheme.colors.PrimaryLightColor,
-                            shape = CircleShape
-                        )
-                        .clickable {
-
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.facebook_2),
-                        contentDescription = "Facebook Login Icon"
-                    )
-                }
-
-            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
