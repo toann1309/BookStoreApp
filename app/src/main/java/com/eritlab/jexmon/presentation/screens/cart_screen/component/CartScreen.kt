@@ -1,43 +1,45 @@
 package com.eritlab.jexmon.presentation.screens.cart_screen.component
 
-import android.util.Log
-import android.widget.Toast
+import android.service.autofill.OnClickAction
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.pointerInteropFilter
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
+import androidx.navigation.NavController
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
+import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 
 
-@Preview(showBackground = true)
+
 @Composable
-fun CartScreen() {
+fun CartScreen(
+    navController: NavController,
+    popBack: () -> Unit,
+
+) {
     var itemDrag by remember { mutableStateOf(0f) }
 
 
@@ -57,8 +59,19 @@ fun CartScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.weight(0.5f)) {
-                DefaultBackArrow {
+                IconButton(
+                    onClick = {
+                        popBack()
+                    },
+                    modifier = Modifier
+                        .background(color = Color.White, shape = CircleShape)
+                        .clip(CircleShape)
 
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.back_icon),
+                        contentDescription = null
+                    )
                 }
             }
             Box(modifier = Modifier.weight(0.7f)) {
@@ -95,12 +108,7 @@ fun CartScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp)
-                    .pointerInput(Unit) {
-                        detectVerticalDragGestures { change, dragAmount ->
-                            itemDrag = dragAmount
-                        }
-                    },
+                    .padding(15.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -141,12 +149,7 @@ fun CartScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp)
-                    .pointerInput(Unit) {
-                        detectVerticalDragGestures { change, dragAmount ->
-                            itemDrag = dragAmount
-                        }
-                    },
+                    .padding(15.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -183,12 +186,7 @@ fun CartScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp)
-                    .pointerInput(Unit) {
-                        detectVerticalDragGestures { change, dragAmount ->
-                            itemDrag = dragAmount
-                        }
-                    },
+                    .padding(15.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -225,12 +223,7 @@ fun CartScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp)
-                    .pointerInput(Unit) {
-                        detectVerticalDragGestures { change, dragAmount ->
-                            itemDrag = dragAmount
-                        }
-                    },
+                    .padding(15.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -275,6 +268,7 @@ fun CartScreen() {
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
+                    top.linkTo(product.bottom)
                 }
                 .background(
                     color = MaterialTheme.colors.PrimaryLightColor,
@@ -329,9 +323,11 @@ fun CartScreen() {
                     modifier = Modifier
                         .width(150.dp)
                 ) {
-                    CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out") {
-
-                    }
+                    CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out",
+                        onClick = {
+                            navController.navigate(DetailScreen.CheckOut.route)
+                        }
+                    )
                 }
 
             }
