@@ -44,7 +44,7 @@ fun DashboardScreen(
     popularProductState: LazyListState = rememberLazyListState(),
     suggestionProductState: LazyListState = rememberLazyListState(),
     productViewModel: DashboardViewModel = hiltViewModel(),
-    onItemClick: (Int) -> Unit
+    onItemClick: (Int) -> Unit,
 ) {
 
     val state = productViewModel.state.value
@@ -324,7 +324,7 @@ fun DashboardScreen(
             items(state.product!!.size) {
 
                 //favourite state rememberable
-                var favouriteRemember by remember { mutableStateOf(state.product[it].isFavourite) }
+
 
                 Column {
                     Box(
@@ -361,33 +361,6 @@ fun DashboardScreen(
                             fontWeight = FontWeight(600),
                             color = MaterialTheme.colors.PrimaryColor
                         )
-                        Box(
-                            modifier = Modifier
-                                .size(20.dp)
-                                .background(
-                                    MaterialTheme.colors.PrimaryLightColor,
-                                    shape = CircleShape
-                                )
-                                .clip(CircleShape)
-                                .clickable {
-                                    favouriteRemember = !favouriteRemember
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-
-                            Image(
-                                painter = painterResource(
-                                    id = if (favouriteRemember)
-                                        R.drawable.heart_icon_2
-                                    else R.drawable.heart_icon
-                                ),
-                                contentDescription = "Favourite Icon",
-                                modifier = Modifier.padding(3.dp),
-                                colorFilter = if (favouriteRemember) ColorFilter.tint(
-                                    Color.Red
-                                ) else null
-                            )
-                        }
                     }
 
                 }

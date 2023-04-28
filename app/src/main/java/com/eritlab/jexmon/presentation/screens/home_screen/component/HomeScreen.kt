@@ -46,9 +46,6 @@ fun HomeScreen(
                 },
                 onCartIconClick = {
                     navController.navigate(DetailScreen.CartScreen.route)
-                },
-                onNotificationIconClick = {
-                    navController.navigate(DetailScreen.NotificationScreen.route)
                 })
         },
         bottomBar = {
@@ -62,6 +59,8 @@ fun HomeScreen(
             modifier = Modifier
                 .padding(padding)
                 .verticalScroll(boxScrollState)
+                .fillMaxSize()
+
         ) {
             HomeNavGraph(navHostController = navController)
         }

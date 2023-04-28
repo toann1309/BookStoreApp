@@ -2,6 +2,7 @@ package com.eritlab.jexmon.presentation.graphs.root_graph
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,7 +22,5 @@ fun RootNavigationGraph(navHostController: NavHostController, context: Context) 
         composable(route = Graph.HOME) {
             HomeScreen()
         }
-
-
     }
 }

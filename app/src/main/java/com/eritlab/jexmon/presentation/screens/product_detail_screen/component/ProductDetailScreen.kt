@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.product_detail_screen.component
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
@@ -22,37 +23,45 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
+import com.eritlab.jexmon.presentation.screens.favourite_screen.component.FavouriteViewModel
+import com.eritlab.jexmon.presentation.screens.product_detail_screen.GameDetailViewModel
 import com.eritlab.jexmon.presentation.screens.product_detail_screen.ProductDetailViewModel
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
+@JvmOverloads
+@SuppressLint("StateFlowValueCalledInComposition", "SuspiciousIndentation")
 @Composable
 fun ProductDetailScreen(
-    viewModel: ProductDetailViewModel = hiltViewModel(),
+    viewModel: GameDetailViewModel = hiltViewModel(),
     popBack: () -> Unit
 ) {
-    val state = viewModel.state.value
+    val state = viewModel.gameDetail.value
     val context = LocalContext.current
-    if (state.isLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else if (state.productDetail != null) {
-        val product = state.productDetail
-        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
-        var selectedPicture by remember { mutableStateOf(product.images[0]) }
+//    if (state.isLoading) {
+//        Column(
+//            modifier = Modifier.fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center
+//        ) {
+//            CircularProgressIndicator()
+//        }
+//    } else
+        if (state != null) {
+        val product = state
+//        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
+            var image by remember{ mutableStateOf(product.thumbnail) }
         var quantity by remember { mutableStateOf(1) }
 
 
@@ -85,51 +94,27 @@ fun ProductDetailScreen(
                         contentDescription = null
                     )
                 }
-                Row(
-                    modifier = Modifier
-                        .width(70.dp)
-                        .background(color = Color.White, shape = RoundedCornerShape(8.dp))
-                        .padding(3.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        4.dp,
-                        Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = product.rating.toString(),
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.star_icon),
-                        contentDescription = null
-                    )
-                }
-
-
             }
             //image
             Image(
-                painter = painterResource(id = selectedPicture),
+                painter = rememberImagePainter(data = image),
                 contentDescription = null,
                 modifier = Modifier.size(250.dp)
             )
 
-            LazyRow(
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                items(product.images.size) {
+                for(item in product.screenshots){
                     IconButton(
                         onClick = {
-                            selectedPicture = product.images[it]
+                            image = item.image
                         },
                         modifier = Modifier
                             .size(50.dp)
                             .border(
                                 width = 1.dp,
-                                color = if (selectedPicture == product.images[it]) MaterialTheme.colors.PrimaryColor else Color.Transparent,
+                                color = if (image == item.image) MaterialTheme.colors.PrimaryColor else Color.Transparent,
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .background(Color.White, shape = RoundedCornerShape(10.dp))
@@ -137,12 +122,15 @@ fun ProductDetailScreen(
                             .clip(RoundedCornerShape(10.dp))
                     ) {
                         Image(
-                            painter = painterResource(id = product.images[it]),
+                            painter = rememberImagePainter(data = item.image),
                             contentDescription = null,
                         )
 
                     }
                 }
+//                items(product.screenshots.size) {
+//
+//                }
 
             }
             Spacer(modifier = Modifier.height(50.dp))
@@ -153,7 +141,7 @@ fun ProductDetailScreen(
                         Color.White,
                         shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                     )
-                //   .padding(15.dp)
+                   .padding(15.dp)
             ) {
 
                 Row(
@@ -177,48 +165,12 @@ fun ProductDetailScreen(
                         Text(
                             text = product.description,
                             fontSize = 16.sp,
-                            color = MaterialTheme.colors.TextColor
-                        )
-                        Spacer(modifier = Modifier.height(25.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(5.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "See more Details",
-                                color = MaterialTheme.colors.PrimaryColor,
-                                fontSize = 16.sp,
+                            color = MaterialTheme.colors.TextColor,
 
-                                )
-                            Icon(
-                                painter = painterResource(id = R.drawable.arrow_right),
-                                contentDescription = "",
-                                tint = MaterialTheme.colors.PrimaryColor
                             )
-                        }
-
-
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Image(
-                            painter = painterResource(id = R.drawable.heart_icon_2),
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(Color.Red),
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(
-                                    Color(0x75F44336),
-                                    shape = RoundedCornerShape(
-                                        topStart = 20.dp,
-                                        bottomStart = 20.dp
-                                    )
-                                )
-                                .padding(10.dp)
-                                .weight(1f)
-                        )
+                        Spacer(modifier = Modifier.height(25.dp))
                     }
                 }
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -227,29 +179,9 @@ fun ProductDetailScreen(
                             shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                         )
                         .padding(15.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                        items(product.colors.size) {
-                            Box(
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .border(
-                                        width = 1.dp,
-                                        color = if (colorSelected == product.colors[it]) MaterialTheme.colors.PrimaryColor else Color.Transparent,
-                                        shape = CircleShape
-                                    )
-                                    .padding(5.dp)
-                                    .background(color = product.colors[it], shape = CircleShape)
-                                    .clip(CircleShape)
-                                    .clickable {
-                                        colorSelected = product.colors[it]
-                                    }
-                            )
-                        }
-                    }
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -302,7 +234,7 @@ fun ProductDetailScreen(
                 }
 
 
-                Box(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
@@ -311,7 +243,8 @@ fun ProductDetailScreen(
                             shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                         )
                         .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)),
-                    contentAlignment = Alignment.Center
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Button(
                         colors = ButtonDefaults.buttonColors(
@@ -319,7 +252,7 @@ fun ProductDetailScreen(
                             contentColor = Color.White
                         ),
                         modifier = Modifier
-                            .width(200.dp)
+                            .width(150.dp)
                             .padding(top = 30.dp, bottom = 30.dp)
                             .height(60.dp)
                             .clip(RoundedCornerShape(15.dp)),
@@ -334,6 +267,28 @@ fun ProductDetailScreen(
                     ) {
                         Text(text = "Add to Cart", fontSize = 16.sp)
                     }
+                    Spacer(modifier = Modifier.width(1.dp))
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.PrimaryColor,
+                            contentColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .width(150.dp)
+                            .padding(top = 30.dp, bottom = 30.dp)
+                            .height(60.dp)
+                            .clip(RoundedCornerShape(15.dp)),
+                        onClick = {
+                            Toast.makeText(
+                                context,
+                                "Go to checkout",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        },
+                    ) {
+                        Text(text = "Buy now", fontSize = 16.sp)
+                    }
                 }
 
 
@@ -343,7 +298,7 @@ fun ProductDetailScreen(
         }
 
     } else {
-        Toast.makeText(context, state.errorMessage, Toast.LENGTH_SHORT).show()
+        Log.e("Tag", "Null rồi cái lol má")
     }
 
 

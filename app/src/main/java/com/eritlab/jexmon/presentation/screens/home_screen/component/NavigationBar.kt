@@ -28,7 +28,6 @@ fun NavigationBar(
     val navItemList = listOf(
         BottomNavItem.HomeNav,
         BottomNavItem.FavouriteNav,
-        BottomNavItem.ChatNav,
         BottomNavItem.ProfileNav,
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -73,6 +72,10 @@ fun NavigationBar(
             bottomNavVisibility = true
             isVisible(true)
         }
+        ShopHomeScreen.FavouriteScreen.route->{
+            bottomNavVisibility = true
+            isVisible(true)
+        }
         DetailScreen.ProductDetailScreen.route + "/{${Constrains.PRODUCT_ID_PARAM}}" -> {
 
             bottomNavVisibility = false
@@ -86,10 +89,14 @@ fun NavigationBar(
             bottomNavVisibility = false
             isVisible(false)
         }
+<<<<<<< HEAD
         DetailScreen.CheckOut.route->{
             bottomNavVisibility=false
             isVisible(false)
         }
+=======
+
+>>>>>>> 7cce47f31a28157ade21323def397a79f6226477
         else -> {
             bottomNavVisibility = true
             isVisible(false)
