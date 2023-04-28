@@ -21,6 +21,8 @@ import androidx.navigation.NavController
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
+import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
+import com.eritlab.jexmon.presentation.screens.home_screen.component.HomeScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.google.accompanist.pager.ExperimentalPagerApi

@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.product_detail_screen.component
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
@@ -28,32 +29,39 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
+import com.eritlab.jexmon.presentation.screens.favourite_screen.component.FavouriteViewModel
+import com.eritlab.jexmon.presentation.screens.product_detail_screen.GameDetailViewModel
 import com.eritlab.jexmon.presentation.screens.product_detail_screen.ProductDetailViewModel
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
+@JvmOverloads
+@SuppressLint("StateFlowValueCalledInComposition", "SuspiciousIndentation")
 @Composable
 fun ProductDetailScreen(
-    viewModel: ProductDetailViewModel = hiltViewModel(),
+    viewModel: GameDetailViewModel = hiltViewModel(),
     popBack: () -> Unit
 ) {
-    val state = viewModel.state.value
+    val state = viewModel.gameDetail.value
     val context = LocalContext.current
-    if (state.isLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else if (state.productDetail != null) {
-        val product = state.productDetail
-        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
-        var selectedPicture by remember { mutableStateOf(product.images[0]) }
+//    if (state.isLoading) {
+//        Column(
+//            modifier = Modifier.fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center
+//        ) {
+//            CircularProgressIndicator()
+//        }
+//    } else
+        if (state != null) {
+        val product = state
+//        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
+            var image by remember{ mutableStateOf(product.thumbnail) }
         var quantity by remember { mutableStateOf(1) }
 
 
@@ -89,24 +97,24 @@ fun ProductDetailScreen(
             }
             //image
             Image(
-                painter = painterResource(id = selectedPicture),
+                painter = rememberImagePainter(data = image),
                 contentDescription = null,
                 modifier = Modifier.size(250.dp)
             )
 
-            LazyRow(
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                items(product.images.size) {
+                for(item in product.screenshots){
                     IconButton(
                         onClick = {
-                            selectedPicture = product.images[it]
+                            image = item.image
                         },
                         modifier = Modifier
                             .size(50.dp)
                             .border(
                                 width = 1.dp,
-                                color = if (selectedPicture == product.images[it]) MaterialTheme.colors.PrimaryColor else Color.Transparent,
+                                color = if (image == item.image) MaterialTheme.colors.PrimaryColor else Color.Transparent,
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .background(Color.White, shape = RoundedCornerShape(10.dp))
@@ -114,12 +122,15 @@ fun ProductDetailScreen(
                             .clip(RoundedCornerShape(10.dp))
                     ) {
                         Image(
-                            painter = painterResource(id = product.images[it]),
+                            painter = rememberImagePainter(data = item.image),
                             contentDescription = null,
                         )
 
                     }
                 }
+//                items(product.screenshots.size) {
+//
+//                }
 
             }
             Spacer(modifier = Modifier.height(50.dp))
@@ -130,7 +141,7 @@ fun ProductDetailScreen(
                         Color.White,
                         shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                     )
-                //   .padding(15.dp)
+                   .padding(15.dp)
             ) {
 
                 Row(
@@ -156,7 +167,7 @@ fun ProductDetailScreen(
                             fontSize = 16.sp,
                             color = MaterialTheme.colors.TextColor,
 
-                        )
+                            )
                         Spacer(modifier = Modifier.height(25.dp))
                     }
                 }
@@ -287,7 +298,7 @@ fun ProductDetailScreen(
         }
 
     } else {
-        Toast.makeText(context, state.errorMessage, Toast.LENGTH_SHORT).show()
+        Log.e("Tag", "Null rồi cái lol má")
     }
 
 
