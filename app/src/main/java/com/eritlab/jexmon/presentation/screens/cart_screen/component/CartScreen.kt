@@ -1,6 +1,7 @@
 package com.eritlab.jexmon.presentation.screens.cart_screen.component
 
 import android.service.autofill.OnClickAction
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,14 +35,17 @@ import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 
 
-
 @Composable
 fun CartScreen(
     navController: NavController,
     popBack: () -> Unit,
 
 ) {
+//    val state = viewModel.state.value
+    val context = LocalContext.current
     var itemDrag by remember { mutableStateOf(0f) }
+    var quantity by remember { mutableStateOf(1) }
+//    var products by remember { mutableStateOf(listOf<>())}
 
 
     ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
@@ -133,9 +138,88 @@ fun CartScreen(
                         Text(
                             text = "$79.99",
                             color = MaterialTheme.colors.PrimaryColor,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(10.dp, 4.dp, 16.dp, 0.dp)
+
                         )
-                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    if (quantity > 1) {
+                                        quantity--
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.remove),
+                                    contentDescription = null,
+                                )
+                            }
+                            Text(
+                                text = quantity.toString(),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .width(35.dp)
+                                    .wrapContentHeight()
+                            )
+                            IconButton(
+                                onClick = {
+                                    if (quantity < 5) {
+                                        quantity++
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "You can add maximum 5 item at a time.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.plus_icon),
+                                    contentDescription = null,
+
+                                )
+                            }
+
+                            IconButton(
+                                onClick = {
+
+                                },
+                                modifier = Modifier
+                                    .padding(40.dp, 0.dp, 0.dp, 0.dp)
+                                    .width(30.dp)
+                                    .height(30.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.trash),
+                                    contentDescription = null
+                                )
+                            }
+                        }
+//                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
                     }
                 }
             }
@@ -174,9 +258,85 @@ fun CartScreen(
                         Text(
                             text = "$100.25",
                             color = MaterialTheme.colors.PrimaryColor,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(10.dp, 4.dp, 16.dp, 0.dp)
                         )
-                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    if (quantity > 1) {
+                                        quantity--
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.remove),
+                                    contentDescription = null
+                                )
+                            }
+                            Text(
+                                text = quantity.toString(),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .width(35.dp)
+                                    .wrapContentHeight()
+                            )
+                            IconButton(
+                                onClick = {
+                                    if (quantity < 5) {
+                                        quantity++
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "You can add maximum 5 item at a time.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.plus_icon),
+                                    contentDescription = null
+                                )
+                            }
+
+                            IconButton(
+                                onClick = {
+
+                                },
+                                modifier = Modifier
+                                    .padding(40.dp, 0.dp, 0.dp, 0.dp)
+                                    .width(30.dp)
+                                    .height(30.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.trash),
+                                    contentDescription = null
+                                )
+                            }
+                        }
+//                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
                     }
                 }
             }
@@ -211,9 +371,85 @@ fun CartScreen(
                         Text(
                             text = "$49.99",
                             color = MaterialTheme.colors.PrimaryColor,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(10.dp, 4.dp, 16.dp, 0.dp)
                         )
-                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    if (quantity > 1) {
+                                        quantity--
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.remove),
+                                    contentDescription = null
+                                )
+                            }
+                            Text(
+                                text = quantity.toString(),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .width(35.dp)
+                                    .wrapContentHeight()
+                            )
+                            IconButton(
+                                onClick = {
+                                    if (quantity < 5) {
+                                        quantity++
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "You can add maximum 5 item at a time.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.plus_icon),
+                                    contentDescription = null
+                                )
+                            }
+
+                            IconButton(
+                                onClick = {
+
+                                },
+                                modifier = Modifier
+                                    .padding(40.dp, 0.dp, 0.dp, 0.dp)
+                                    .width(30.dp)
+                                    .height(30.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.trash),
+                                    contentDescription = null
+                                )
+                            }
+                        }
+//                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
                     }
                 }
             }
@@ -248,9 +484,85 @@ fun CartScreen(
                         Text(
                             text = "$36.55",
                             color = MaterialTheme.colors.PrimaryColor,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(10.dp, 4.dp, 16.dp, 0.dp)
                         )
-                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    if (quantity > 1) {
+                                        quantity--
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.remove),
+                                    contentDescription = null
+                                )
+                            }
+                            Text(
+                                text = quantity.toString(),
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .width(35.dp)
+                                    .wrapContentHeight()
+                            )
+                            IconButton(
+                                onClick = {
+                                    if (quantity < 5) {
+                                        quantity++
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "You can add maximum 5 item at a time.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                },
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colors.PrimaryColor,
+                                        shape = CircleShape
+                                    )
+                                    .clip(CircleShape)
+                                    .width(30.dp)
+                                    .height(30.dp)
+
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.plus_icon),
+                                    contentDescription = null
+                                )
+                            }
+                            
+                            IconButton(
+                                onClick = {
+
+                                },
+                                modifier = Modifier
+                                    .padding(40.dp, 0.dp, 0.dp, 0.dp)
+                                    .width(30.dp)
+                                    .height(30.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.trash),
+                                    contentDescription = null
+                                )
+                            }
+                        }
+//                        Text(text = "  x1", color = MaterialTheme.colors.TextColor)
                     }
                 }
             }
