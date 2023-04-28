@@ -4,13 +4,10 @@ package com.eritlab.jexmon.presentation.screens.sign_in_screen.component
 import android.util.Patterns
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -29,7 +26,6 @@ import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.common.component.ErrorSuggestion
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
-import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 
@@ -37,14 +33,18 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var password by remember { mutableStateOf(TextFieldValue("")) }
-    var checkBox by remember {
-        mutableStateOf(false)
-    }
+
     val emailErrorState = remember {
         mutableStateOf(false)
     }
     val passwordErrorState = remember {
         mutableStateOf(false)
+    }
+    val emailErrorStateMessage = remember{
+        mutableStateOf("")
+    }
+    val passwordErrorStateMessage = remember{
+        mutableStateOf("")
     }
 
 
@@ -90,11 +90,10 @@ fun LoginScreen(navController: NavController) {
             label = "Email",
             errorState = emailErrorState,
             keyboardType = KeyboardType.Email,
-            visualTransformation = VisualTransformation.None,
-            onChanged = { newEmail ->
-                email = newEmail
-            }
-        )
+            visualTransformation = VisualTransformation.None
+        ) { newEmail ->
+            email = newEmail
+        }
         Spacer(modifier = Modifier.height(20.dp))
         CustomTextField(
             placeholder = "********",
@@ -102,18 +101,17 @@ fun LoginScreen(navController: NavController) {
             label = "Password",
             keyboardType = KeyboardType.Password,
             errorState = passwordErrorState,
-            visualTransformation = PasswordVisualTransformation(),
-            onChanged = { newPass ->
-                password = newPass
-            }
-        )
+            visualTransformation = PasswordVisualTransformation()
+        ) { newPass ->
+            password = newPass
+        }
         Spacer(modifier = Modifier.height(10.dp))
         if (emailErrorState.value) {
-            ErrorSuggestion("Please enter valid email address.")
+            ErrorSuggestion(emailErrorStateMessage.value)
         }
         if (passwordErrorState.value) {
             Row() {
-                ErrorSuggestion("Please enter valid password.")
+                ErrorSuggestion(passwordErrorStateMessage.value)
             }
         }
         Row(
@@ -132,13 +130,41 @@ fun LoginScreen(navController: NavController) {
                 }
             )
         }
-        CustomDefaultBtn(shapeSize = 50f, btnText = "Continue") {
+        CustomDefaultBtn(shapeSize = 50f, btnText = "Sign In") {
             //email pattern
             val pattern = Patterns.EMAIL_ADDRESS
             val isEmailValid = pattern.matcher(email.text).matches()
-            val isPassValid = password.text.length >= 8
-            emailErrorState.value = !isEmailValid
-            passwordErrorState.value = !isPassValid
+            val isPassValid = password.text.length >= 6
+            if(email.text.isBlank()){
+                if(emailErrorState.value==false){
+                    emailErrorState.value=true
+                    emailErrorStateMessage.value="Email must have input"
+                }
+            }else{
+                if(!isEmailValid){
+                    emailErrorState.value=true
+                    emailErrorStateMessage.value="Email is false format"
+                }else{
+                    emailErrorState.value=false
+                }
+            }
+
+            if(password.text.isBlank()){
+                if(passwordErrorState.value == false){
+                    passwordErrorState.value=true
+                    passwordErrorStateMessage.value="Password must have input"
+                }
+            }
+            else{
+                if(0<password.text.length&&password.text.length<6){
+                    passwordErrorState.value=true
+                    passwordErrorStateMessage.value="Password at least 6 character"
+                }else{
+                    passwordErrorState.value=false
+                }
+            }
+//            emailErrorState.value = !isEmailValid
+//            passwordErrorState.value = !isPassValid
             if (isEmailValid && isPassValid) {
                 navController.navigate(AuthScreen.SignInSuccess.route)
             }

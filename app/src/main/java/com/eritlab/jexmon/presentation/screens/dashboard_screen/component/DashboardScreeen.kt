@@ -44,7 +44,7 @@ fun DashboardScreen(
     popularProductState: LazyListState = rememberLazyListState(),
     suggestionProductState: LazyListState = rememberLazyListState(),
     productViewModel: DashboardViewModel = hiltViewModel(),
-    onItemClick: (Int) -> Unit
+    onItemClick: (Int) -> Unit,
 ) {
 
     val state = productViewModel.state.value

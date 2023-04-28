@@ -14,6 +14,7 @@ import com.eritlab.jexmon.presentation.screens.forget_password_screen.component.
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.screens.on_boarding_screen.component.SplashScreen
 import com.eritlab.jexmon.presentation.screens.otp_screen.component.OTPScreen
+import com.eritlab.jexmon.presentation.screens.resetpassword.component.ResetPasswordScreen
 import com.eritlab.jexmon.presentation.screens.sign_in_screen.component.LoginScreen
 import com.eritlab.jexmon.presentation.screens.sign_success_screen.component.SignInScreen
 import com.eritlab.jexmon.presentation.screens.sign_up_screen.component.SignUpScreen
@@ -65,6 +66,8 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController, context: Cont
         composable(AuthScreen.SignInSuccess.route) {
             SignInScreen(navController = navController)
         }
-
+        composable(AuthScreen.ResetPasswordScreen.route){
+            ResetPasswordScreen(navController = navController)
+        }
     }
 }

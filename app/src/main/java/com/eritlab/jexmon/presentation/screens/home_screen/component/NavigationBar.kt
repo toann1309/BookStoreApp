@@ -89,7 +89,14 @@ fun NavigationBar(
             bottomNavVisibility = false
             isVisible(false)
         }
+<<<<<<< HEAD
+        DetailScreen.CheckOut.route->{
+            bottomNavVisibility=false
+            isVisible(false)
+        }
+=======
 
+>>>>>>> 7cce47f31a28157ade21323def397a79f6226477
         else -> {
             bottomNavVisibility = true
             isVisible(false)

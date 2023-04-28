@@ -3,6 +3,8 @@ package com.eritlab.jexmon.presentation.screens.forget_password_screen.component
 import android.util.Patterns
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -10,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,6 +22,7 @@ import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomTextField
 import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.common.component.ErrorSuggestion
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
@@ -26,7 +30,9 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 @Composable
 fun ForgetPasswordScreen(navController: NavController) {
-    var email: String = ""
+    var email by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
     val emailErrorState = remember {
         mutableStateOf(false)
     }
@@ -35,7 +41,8 @@ fun ForgetPasswordScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(30.dp),
+            .padding(30.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -46,7 +53,7 @@ fun ForgetPasswordScreen(navController: NavController) {
         )
         {
 
-            Box(modifier = Modifier.weight(0.3f)) {
+            Box(modifier = Modifier.weight(0.4f)) {
                 DefaultBackArrow() {
                     navController.popBackStack()
                 }
@@ -68,7 +75,7 @@ fun ForgetPasswordScreen(navController: NavController) {
             color = MaterialTheme.colors.TextColor,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.height(150.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -81,20 +88,21 @@ fun ForgetPasswordScreen(navController: NavController) {
                 label = "Email",
                 errorState = emailErrorState,
                 keyboardType = KeyboardType.Email,
-                visualTransformation = VisualTransformation.None,
-                onChanged = { newEmail ->
-               //     email = newEmail
-                }
-            )
-
+                visualTransformation = VisualTransformation.None
+            ) { newEmail ->
+                email = newEmail
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            if(emailErrorState.value){
+                ErrorSuggestion(message = "Please enter valid email address")
+            }
             CustomDefaultBtn(shapeSize = 50f, btnText = "Continue") {
                 //email pattern
                 val pattern = Patterns.EMAIL_ADDRESS
-                val isEmailValid = pattern.matcher(email).matches()
+                val isEmailValid = pattern.matcher(email.text).matches()
                 emailErrorState.value = !isEmailValid
                 if (isEmailValid) {
-                    navController.popBackStack()
-                    navController.navigate(AuthScreen.SignInScreen.route)
+                    navController.navigate(AuthScreen.ResetPasswordScreen.route)
                 }
             }
 
