@@ -58,10 +58,10 @@ fun ProductDetailScreen(
 //            CircularProgressIndicator()
 //        }
 //    } else
-        if (state != null) {
+    if (state != null) {
         val product = state
 //        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
-            var image by remember{ mutableStateOf(product.thumbnail) }
+        var image by remember { mutableStateOf(product.thumbnail) }
         var quantity by remember { mutableStateOf(1) }
 
 
@@ -105,7 +105,7 @@ fun ProductDetailScreen(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                for(item in product.screenshots){
+                for (item in product.screenshots) {
                     IconButton(
                         onClick = {
                             image = item.image
@@ -141,7 +141,7 @@ fun ProductDetailScreen(
                         Color.White,
                         shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                     )
-                   .padding(15.dp)
+                    .padding(15.dp)
             ) {
 
                 Row(
@@ -161,7 +161,14 @@ fun ProductDetailScreen(
                         )
 
                         Spacer(modifier = Modifier.height(25.dp))
+                        Text(
+                            text = "$${product.id.toString()}",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            color = Color(0xFFFF6436)
+                        )
 
+                        Spacer(modifier = Modifier.height(25.dp))
                         Text(
                             text = product.description,
                             fontSize = 16.sp,
@@ -300,6 +307,4 @@ fun ProductDetailScreen(
     } else {
         Log.e("Tag", "Null rồi cái lol má")
     }
-
-
 }

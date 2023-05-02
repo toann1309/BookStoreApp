@@ -11,4 +11,8 @@ interface GameAPI {
     suspend fun getGame():Response<List<GamesModel>>
     @GET("game")
     suspend fun getDetailGame(@Query("id") id:Int):GameDetailModel
+    @GET(GAMES_ENDPOINT)
+    suspend fun getCategoryGame(@Query("category") category:String):Response<List<GamesModel>>
+    @GET(GAMES_ENDPOINT)
+    suspend fun getFilterGame(@Query("platform") platform:String,@Query("category") category:String, @Query("sort-by") sortBy:String):Response<List<GamesModel>>
 }

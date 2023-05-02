@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
 import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
@@ -35,9 +36,9 @@ import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun CartScreen() {
+fun CartScreen(navController:NavController) {
     var itemDrag by remember { mutableStateOf(0f) }
 
 
@@ -58,7 +59,7 @@ fun CartScreen() {
         ) {
             Box(modifier = Modifier.weight(0.5f)) {
                 DefaultBackArrow {
-
+                    navController.popBackStack()
                 }
             }
             Box(modifier = Modifier.weight(0.7f)) {
@@ -272,9 +273,10 @@ fun CartScreen() {
             modifier = Modifier
                 .wrapContentHeight()
                 .constrainAs(checkout) {
-                    bottom.linkTo(parent.bottom)
+                    top.linkTo(product.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
                 }
                 .background(
                     color = MaterialTheme.colors.PrimaryLightColor,

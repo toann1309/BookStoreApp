@@ -20,7 +20,7 @@ fun NavGraphBuilder.detailNavGraph(navController: NavHostController) {
         startDestination = DetailScreen.ProductDetailScreen.route+"/{${Constrains.PRODUCT_ID_PARAM}}"
     ) {
         composable(DetailScreen.CartScreen.route) {
-            CartScreen()
+            CartScreen(navController=navController)
         }
         composable(DetailScreen.NotificationScreen.route) {
             NotificationScreen()

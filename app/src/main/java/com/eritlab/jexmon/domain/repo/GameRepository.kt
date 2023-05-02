@@ -11,4 +11,14 @@ class GameRepository @Inject constructor(private val gameService: GameService) {
             it.toGameItem()
         }
     }
+    suspend fun getCategoryGame(category:String):List<GameItem>{
+        return gameService.getCategoryGame(category).map{
+            it.toGameItem()
+        }
+    }
+    suspend fun getFilterGame(platform:String, category:String, sortBy:String):List<GameItem>{
+        return gameService.getFilterGame(platform, category, sortBy).map {
+            it.toGameItem()
+        }
+    }
 }

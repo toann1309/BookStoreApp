@@ -17,4 +17,16 @@ class GameService @Inject constructor(private val gameApi:GameAPI) {
     suspend fun getDetailGame(id:Int):GameDetailModel{
         return gameApi.getDetailGame(id)
     }
+    suspend fun getCategoryGame(category:String):List<GamesModel>{
+        return withContext(Dispatchers.IO){
+            val gamesCategory = gameApi.getCategoryGame(category)
+            gamesCategory.body()?: emptyList()
+        }
+    }
+    suspend fun getFilterGame(platform:String, category:String, sortBy:String):List<GamesModel>{
+        return withContext(Dispatchers.IO){
+            val gameFilter = gameApi.getFilterGame(platform, category, sortBy)
+            gameFilter.body()?: emptyList()
+        }
+    }
 }

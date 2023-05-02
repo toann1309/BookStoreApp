@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.product_detail_screen
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,7 @@ class GameDetailViewModel @Inject constructor(private val gameProductDetailUseCa
     val gameDetail:StateFlow<GameDetailItem?> get() = _gameDetail
     init {
         val gameId = stateHandle.get<String>(Constrains.PRODUCT_ID_PARAM)
+        Log.e("ID game", gameId.toString())
         getGameDetail(gameId!!.toInt())
     }
     private fun getGameDetail(gameId:Int) {

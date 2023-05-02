@@ -12,9 +12,13 @@ import androidx.navigation.compose.rememberNavController
 import com.eritlab.jexmon.presentation.graphs.Graph
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.graphs.detail_graph.detailNavGraph
+import com.eritlab.jexmon.presentation.graphs.filter_graph.filterScreen
+
+import com.eritlab.jexmon.presentation.graphs.option_graph.optionScreen
 import com.eritlab.jexmon.presentation.screens.dashboard_screen.component.DashboardScreen
 import com.eritlab.jexmon.presentation.screens.favourite_screen.component.FavouriteScreen
 import com.eritlab.jexmon.presentation.screens.profile_screen.component.ProfileScreen
+import com.eritlab.jexmon.presentation.screens.search_screen.component.component.SearchScreen
 
 @Composable
 fun HomeNavGraph(navHostController: NavHostController) {
@@ -40,5 +44,7 @@ fun HomeNavGraph(navHostController: NavHostController) {
         }
         //detail graph
         detailNavGraph(navController = navHostController)
+        optionScreen(navController = navHostController)
+        filterScreen(navController = navHostController)
     }
 }
