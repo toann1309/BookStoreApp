@@ -44,29 +44,22 @@ fun CustomDialog(
     navController:NavController
 ){
     val ctx = LocalContext.current
-    val array = mutableStateListOf<String>("","","")
+    val array = mutableStateListOf<String>("","")
     val filterList = listOf(
         ChipsModel(
-            name = "platform",
-            subList = listOf("browser", "mobile", "console"),
+            name = "price",
+            subList = listOf("low to high","hight to low"),
             trailingIcon = Icons.Default.ArrowDropDown,
             selectedIcon = Icons.Default.Check,
             order = 0,
         ),
         ChipsModel(
-            name = "category",
-            subList = listOf("mmorpg", "shooter","ARPG"),
+            name = "publisher",
+            subList = listOf("Nhã Nham", "Tổng Hợp HCM","NXB trẻ"),
             trailingIcon = Icons.Default.ArrowDropDown,
             selectedIcon = Icons.Default.Check,
             order = 1,
-        ),
-        ChipsModel(
-            name = "sort-by",
-            subList = listOf("release-date", "date-ago"),
-            trailingIcon = Icons.Default.ArrowDropDown,
-            selectedIcon = Icons.Default.Check,
-            order = 2,
-        ),
+        )
     )
     val selectedItems = mutableStateListOf<String>()
 //    val selectedItems = mutableStateListOf<ChipsModel>()
@@ -147,8 +140,8 @@ fun CustomDialog(
                     }
                     Button(onClick = {
                         onPositiveButtonClicked
-                            if(array[0] != "" && array[1] != "" && array[2] != ""){
-                                navController.navigate(FilterGameScreen.FilterScreen.route + "/${array[0]}/${array[1]}/${array[2]}")
+                            if(array[0] != "" && array[1] != ""){
+                                navController.navigate(FilterGameScreen.FilterScreen.route + "/${array[0]}/${array[1]}")
                             }else{
                                 Toast.makeText(ctx, "Yêu cầu lọc tất cả", Toast.LENGTH_LONG).show()
                             }
@@ -165,7 +158,6 @@ fun CustomDialog(
                             else{
                                 Log.e("Array", array[0])
                                 Log.e("Array", array[1])
-                                Log.e("Array", array[2])
                             }
                     }
                 }

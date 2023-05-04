@@ -12,9 +12,9 @@ import com.eritlab.jexmon.presentation.screens.search_screen.component.component
 fun NavGraphBuilder.optionScreen(navController: NavController){
     navigation(
         route = Graph.OPTIONS,
-        startDestination = OptionScreen.SearchScreen.route+"/{${Constrains.SEARCH_CATEGORY}}"
+        startDestination = OptionScreen.SearchScreen.route+"/{${Constrains.SEARCH_BOOK}}"
     ){
-        composable(OptionScreen.SearchScreen.route+"/{categoryName}"){
+        composable(OptionScreen.SearchScreen.route+"/{keyword}"){
             SearchScreen(){productId ->
                 navController.navigate(DetailScreen.ProductDetailScreen.route + "/${productId}")
             }

@@ -90,11 +90,11 @@ fun NavigationBar(
             bottomNavVisibility = false
             isVisible(false,false)
         }
-        OptionScreen.SearchScreen.route + "/{${Constrains.SEARCH_CATEGORY}}"-> {
+        OptionScreen.SearchScreen.route + "/{${Constrains.SEARCH_BOOK}}"-> {
             bottomNavVisibility = true
             isVisible(true,true)
         }
-        FilterGameScreen.FilterScreen.route + "/{${Constrains.PLATFORM}}/{${Constrains.CATEGORY}}/{${Constrains.SORTBY}}" ->{
+        FilterGameScreen.FilterScreen.route + "/{${Constrains.PRICE}}/{${Constrains.PUBLISHER}}" ->{
             bottomNavVisibility = true
             isVisible(true,true)
         }

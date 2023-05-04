@@ -14,9 +14,9 @@ import com.eritlab.jexmon.presentation.screens.search_screen.component.component
 fun NavGraphBuilder.filterScreen(navController: NavController){
     navigation(
         route = Graph.FILTERGAME,
-        startDestination = FilterGameScreen.FilterScreen.route + "/{${Constrains.PLATFORM}}/{${Constrains.CATEGORY}}/{${Constrains.SORTBY}}"
+        startDestination = FilterGameScreen.FilterScreen.route + "/{${Constrains.PRICE}}/{${Constrains.PUBLISHER}}"
     ){
-        composable(FilterGameScreen.FilterScreen.route+"/{platform}/{category}/{sort-by}"){
+        composable(FilterGameScreen.FilterScreen.route+"/{price}/{publisher}"){
             FilterScreen(){productId ->
                 navController.navigate(DetailScreen.ProductDetailScreen.route + "/${productId}")
             }

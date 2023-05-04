@@ -132,10 +132,6 @@ fun ChipWithSubItems(chipLabel: String, chipItems: List<String>, arrayList: Snap
                             arrayList[order] = filterName
                             Log.e("1",filterName)
                         }
-                        if(order == 2){
-                            arrayList[order] = filterName
-                            Log.e("2", filterName)
-                        }
                         showSubList = false
                     },
                     colors = ButtonDefaults.textButtonColors(
