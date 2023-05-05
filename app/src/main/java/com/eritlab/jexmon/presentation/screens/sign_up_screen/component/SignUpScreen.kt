@@ -4,13 +4,11 @@ import android.util.Patterns
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -27,7 +25,6 @@ import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.common.component.ErrorSuggestion
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
-import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 
@@ -36,7 +33,6 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 fun SignUpScreen(navController: NavController) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var password by remember { mutableStateOf(TextFieldValue("")) }
-    var confirmPass by remember { mutableStateOf(TextFieldValue("")) }
     var firstName by remember { mutableStateOf(TextFieldValue("")) }
     var lastName by remember { mutableStateOf(TextFieldValue("")) }
     var phoneNumber by remember { mutableStateOf(TextFieldValue("")) }
@@ -48,6 +44,13 @@ fun SignUpScreen(navController: NavController) {
     val lastNameErrorState = remember { mutableStateOf(false) }
     val phoneNumberErrorState = remember { mutableStateOf(false) }
     val addressErrorState = remember { mutableStateOf(false) }
+    val emailErrorStateMessage = remember { mutableStateOf("") }
+    val passwordErrorStateMessage = remember { mutableStateOf("") }
+    val conPasswordErrorStateMessage = remember { mutableStateOf("") }
+    val firstNameErrorStateMessage = remember { mutableStateOf("") }
+    val lastNameErrorStateMessage = remember { mutableStateOf("") }
+    val phoneNumberErrorStateMessage = remember { mutableStateOf("") }
+    val addressErrorStateMessage = remember { mutableStateOf("") }
     val animate = remember { mutableStateOf(true) }
 
 
@@ -106,11 +109,10 @@ fun SignUpScreen(navController: NavController) {
                     label = "Email",
                     errorState = emailErrorState,
                     keyboardType = KeyboardType.Email,
-                    visualTransformation = VisualTransformation.None,
-                    onChanged = { newEmail ->
-                        email = newEmail
-                    }
-                )
+                    visualTransformation = VisualTransformation.None
+                ) { newEmail ->
+                    email = newEmail
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
                 CustomTextField(
@@ -119,11 +121,10 @@ fun SignUpScreen(navController: NavController) {
                     label = "Password",
                     keyboardType = KeyboardType.Password,
                     errorState = passwordErrorState,
-                    visualTransformation = PasswordVisualTransformation(),
-                    onChanged = { newPass ->
-                        password = newPass
-                    }
-                )
+                    visualTransformation = PasswordVisualTransformation()
+                ) { newPass ->
+                    password = newPass
+                }
 
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -133,11 +134,10 @@ fun SignUpScreen(navController: NavController) {
                     label = "First Name",
                     errorState = firstNameErrorState,
                     keyboardType = KeyboardType.Text,
-                    visualTransformation = VisualTransformation.None,
-                    onChanged = { newText ->
-                        firstName = newText
-                    }
-                )
+                    visualTransformation = VisualTransformation.None
+                ) { newText ->
+                    firstName = newText
+                }
                 Spacer(modifier = Modifier.height(20.dp))
                 CustomTextField(
                     placeholder = "Enter your last name",
@@ -145,11 +145,10 @@ fun SignUpScreen(navController: NavController) {
                     label = "Last Name",
                     errorState = lastNameErrorState,
                     keyboardType = KeyboardType.Text,
-                    visualTransformation = VisualTransformation.None,
-                    onChanged = { newText ->
-                        lastName = newText
-                    }
-                )
+                    visualTransformation = VisualTransformation.None
+                ) { newText ->
+                    lastName = newText
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
                 CustomTextField(
@@ -158,11 +157,10 @@ fun SignUpScreen(navController: NavController) {
                     label = "Phone Number",
                     keyboardType = KeyboardType.Phone,
                     errorState = phoneNumberErrorState,
-                    visualTransformation = VisualTransformation.None,
-                    onChanged = { newNumber ->
-                        phoneNumber = newNumber
-                    }
-                )
+                    visualTransformation = VisualTransformation.None
+                ) { newNumber ->
+                    phoneNumber = newNumber
+                }
 
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -172,11 +170,10 @@ fun SignUpScreen(navController: NavController) {
                     label = "Address",
                     keyboardType = KeyboardType.Password,
                     errorState = addressErrorState,
-                    visualTransformation = VisualTransformation.None,
-                    onChanged = { newText ->
-                        address = newText
-                    }
-                )
+                    visualTransformation = VisualTransformation.None
+                ) { newText ->
+                    address = newText
+                }
                 Spacer(modifier = Modifier.height(10.dp))
                 if (emailErrorState.value) {
                     ErrorSuggestion("Please enter valid email address.")

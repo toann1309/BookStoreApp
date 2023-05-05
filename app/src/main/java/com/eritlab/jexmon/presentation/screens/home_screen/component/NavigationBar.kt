@@ -1,6 +1,5 @@
 package com.eritlab.jexmon.presentation.dashboard_screen.component
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,7 +14,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.eritlab.jexmon.common.Constrains
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
+import com.eritlab.jexmon.presentation.graphs.filter_graph.FilterGameScreen
 import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
+import com.eritlab.jexmon.presentation.graphs.option_graph.OptionScreen
 import com.eritlab.jexmon.presentation.screens.home_screen.BottomNavItem
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
@@ -23,7 +24,7 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 @Composable
 fun NavigationBar(
     navController: NavController,
-    isVisible: (Boolean) -> Unit,
+    isVisible: (Boolean, Boolean) -> Unit,
 ) {
     val navItemList = listOf(
         BottomNavItem.HomeNav,
@@ -70,29 +71,36 @@ fun NavigationBar(
     when (navBackStackEntry?.destination?.route) {
         ShopHomeScreen.DashboardScreen.route -> {
             bottomNavVisibility = true
-            isVisible(true)
+            isVisible(true, false)
         }
         ShopHomeScreen.FavouriteScreen.route->{
             bottomNavVisibility = true
-            isVisible(true)
+            isVisible(true,true)
         }
         DetailScreen.ProductDetailScreen.route + "/{${Constrains.PRODUCT_ID_PARAM}}" -> {
 
             bottomNavVisibility = false
-            isVisible(false)
+            isVisible(false,false)
         }
         DetailScreen.CartScreen.route -> {
             bottomNavVisibility = false
-            isVisible(false)
+            isVisible(false, false)
         }
         DetailScreen.NotificationScreen.route -> {
             bottomNavVisibility = false
-            isVisible(false)
+            isVisible(false,false)
         }
-
+        OptionScreen.SearchScreen.route + "/{${Constrains.SEARCH_BOOK}}"-> {
+            bottomNavVisibility = true
+            isVisible(true,true)
+        }
+        FilterGameScreen.FilterScreen.route + "/{${Constrains.PRICE}}/{${Constrains.PUBLISHER}}" ->{
+            bottomNavVisibility = true
+            isVisible(true,true)
+        }
         else -> {
             bottomNavVisibility = true
-            isVisible(false)
+            isVisible(false,false)
         }
     }
 

@@ -1,14 +1,12 @@
 package com.eritlab.jexmon.presentation.screens.product_detail_screen.component
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,43 +15,45 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.R
-import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
-import com.eritlab.jexmon.presentation.screens.product_detail_screen.ProductDetailViewModel
+import com.eritlab.jexmon.presentation.screens.product_detail_screen.BookDetailViewModel
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
-import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
+@JvmOverloads
+@SuppressLint("StateFlowValueCalledInComposition", "SuspiciousIndentation")
 @Composable
 fun ProductDetailScreen(
-    viewModel: ProductDetailViewModel = hiltViewModel(),
+    viewModel: BookDetailViewModel = hiltViewModel(),
     popBack: () -> Unit
 ) {
-    val state = viewModel.state.value
+    val state by viewModel.bookDetail.collectAsState()
     val context = LocalContext.current
-    if (state.isLoading) {
+    if (state == null) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(align = Alignment.Center)
+                    .fillMaxHeight(),
+            )
         }
-    } else if (state.productDetail != null) {
-        val product = state.productDetail
-        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
-        var selectedPicture by remember { mutableStateOf(product.images[0]) }
+    }
+    if (state != null) {
+//        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
+        var image by remember { mutableStateOf(state!!.imagesProduct[0]) }
         var quantity by remember { mutableStateOf(1) }
 
 
@@ -89,24 +89,24 @@ fun ProductDetailScreen(
             }
             //image
             Image(
-                painter = painterResource(id = selectedPicture),
+                painter = rememberImagePainter(data = image),
                 contentDescription = null,
                 modifier = Modifier.size(250.dp)
             )
 
-            LazyRow(
+            Row(
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
-                items(product.images.size) {
+                for (item in state!!.imagesProduct) {
                     IconButton(
                         onClick = {
-                            selectedPicture = product.images[it]
+                            image = item
                         },
                         modifier = Modifier
                             .size(50.dp)
                             .border(
                                 width = 1.dp,
-                                color = if (selectedPicture == product.images[it]) MaterialTheme.colors.PrimaryColor else Color.Transparent,
+                                color = if (image == item) MaterialTheme.colors.PrimaryColor else Color.Transparent,
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .background(Color.White, shape = RoundedCornerShape(10.dp))
@@ -114,12 +114,15 @@ fun ProductDetailScreen(
                             .clip(RoundedCornerShape(10.dp))
                     ) {
                         Image(
-                            painter = painterResource(id = product.images[it]),
+                            painter = rememberImagePainter(data = item),
                             contentDescription = null,
                         )
 
                     }
                 }
+//                items(product.screenshots.size) {
+//
+//                }
 
             }
             Spacer(modifier = Modifier.height(50.dp))
@@ -130,7 +133,7 @@ fun ProductDetailScreen(
                         Color.White,
                         shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
                     )
-                //   .padding(15.dp)
+                    .padding(15.dp)
             ) {
 
                 Row(
@@ -144,19 +147,26 @@ fun ProductDetailScreen(
                             .padding(15.dp)
                     ) {
                         Text(
-                            text = product.title,
+                            text = state!!.productName,
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp
                         )
 
                         Spacer(modifier = Modifier.height(25.dp))
-
                         Text(
-                            text = product.description,
+                            text = "$${state!!.price}",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            color = Color(0xFFFF6436)
+                        )
+
+                        Spacer(modifier = Modifier.height(25.dp))
+                        Text(
+                            text = state!!.description,
                             fontSize = 16.sp,
                             color = MaterialTheme.colors.TextColor,
 
-                        )
+                            )
                         Spacer(modifier = Modifier.height(25.dp))
                     }
                 }
@@ -287,8 +297,6 @@ fun ProductDetailScreen(
         }
 
     } else {
-        Toast.makeText(context, state.errorMessage, Toast.LENGTH_SHORT).show()
+        Log.e("Tag", "Null rồi cái lol má")
     }
-
-
 }

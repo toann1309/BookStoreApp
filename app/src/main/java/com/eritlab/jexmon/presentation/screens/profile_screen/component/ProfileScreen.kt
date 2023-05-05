@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.profile_screen.component
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,13 +12,14 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,12 +30,17 @@ import androidx.constraintlayout.compose.HorizontalAnchorable
 import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.presentation.common.component.ModalUpdateProfile
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 
 @Composable
 fun ProfileScreen(
     onBackBtnClick: () -> Unit
 ) {
+    var showModal by remember {
+        mutableStateOf(false)
+    }
+    val ctx = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +54,7 @@ fun ProfileScreen(
         ) {
             Box(modifier = Modifier.weight(0.5f)) {
                 DefaultBackArrow {
-                    onBackBtnClick
+                    onBackBtnClick()
                 }
             }
             Box(modifier = Modifier.weight(0.7f)) {
@@ -100,7 +107,7 @@ fun ProfileScreen(
                 .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
-
+                    showModal = true
                 }
                 .padding(5.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -112,101 +119,6 @@ fun ProfileScreen(
                 modifier = Modifier.weight(0.05f), tint = MaterialTheme.colors.PrimaryColor
             )
             Text("Profile Picture", modifier = Modifier.weight(0.2f))
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_right),
-                contentDescription = null,
-                modifier = Modifier.weight(0.05f),
-                tint = MaterialTheme.colors.TextColor
-            )
-        }
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-
-                .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
-
-                }
-                .padding(5.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.bell),
-                contentDescription = null,
-                modifier = Modifier.weight(0.05f), tint = MaterialTheme.colors.PrimaryColor
-            )
-            Text("Notification", modifier = Modifier.weight(0.2f))
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_right),
-                contentDescription = null,
-                modifier = Modifier.weight(0.05f),
-                tint = MaterialTheme.colors.TextColor
-            )
-        }
-
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-
-                .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
-
-                }
-                .padding(5.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.settings),
-                contentDescription = null,
-                modifier = Modifier.weight(0.05f), tint = MaterialTheme.colors.PrimaryColor
-            )
-            Text("Settings", modifier = Modifier.weight(0.2f))
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_right),
-                contentDescription = null,
-                modifier = Modifier.weight(0.05f),
-                tint = MaterialTheme.colors.TextColor
-            )
-        }
-
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-
-                .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(10.dp))
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
-
-                }
-                .padding(5.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.question_mark),
-                contentDescription = null,
-                modifier = Modifier.weight(0.05f), tint = MaterialTheme.colors.PrimaryColor
-            )
-            Text("Help Center", modifier = Modifier.weight(0.2f))
             Icon(
                 painter = painterResource(id = R.drawable.arrow_right),
                 contentDescription = null,
@@ -244,6 +156,17 @@ fun ProfileScreen(
                 tint = MaterialTheme.colors.TextColor
             )
         }
-
+    }
+    if(showModal){
+        ModalUpdateProfile(
+            onDismiss = { showModal = false},
+            onPositiveButtonClicked = {
+                showModal=false
+                Toast.makeText(ctx,"Update Successfully", Toast.LENGTH_LONG).show();
+            },
+            onNegativeButtonClicked = {
+                showModal=false
+                Toast.makeText(ctx,"Cancel updated", Toast.LENGTH_LONG).show();
+            })
     }
 }
