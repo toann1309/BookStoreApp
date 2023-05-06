@@ -13,4 +13,8 @@ class UserRepository @Inject constructor(private val userService: UserService){
         val response = userService.register(userRegisterRequestItem)
         return response.toGetUserRegisterResponse()
     }
+    suspend fun otp(userOTPRequestItem: UserOTPRequestItem):UserOTPResponseItem{
+        val response = userService.otp(userOTPRequestItem)
+        return response.toGetUserOTPResponse()
+    }
 }

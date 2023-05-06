@@ -6,6 +6,7 @@ import com.eritlab.jexmon.domain.item.UserLoginItem
 import com.eritlab.jexmon.domain.item.UserLoginResponseItem
 import com.eritlab.jexmon.domain.use_case.user_login.UserLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,9 +20,14 @@ class UserLoginViewModel @Inject constructor(private val userLoginUseCase: UserL
 
     }
     fun login(email:String, password:String){
-        viewModelScope.launch {
-            val loginToPage = UserLoginResponseItem(email, password)
-            _login.value = userLoginUseCase(loginToPage)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val loginToPage = UserLoginResponseItem(email, password)
+                _login.value = userLoginUseCase(loginToPage)
+            }catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }
     }
 }
