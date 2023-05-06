@@ -1,16 +1,20 @@
 package com.eritlab.jexmon.presentation.screens.otp_screen.component
 
 
+import android.content.Context
 import android.os.CountDownTimer
+import android.util.Log
 import android.util.Patterns
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -21,6 +25,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
@@ -31,8 +36,14 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 
 @Composable
-fun OTPScreen(navController: NavController) {
+fun OTPScreen(
+    navController: NavController,
+    viewModel:OTPViewModel = hiltViewModel()
+) {
     //otp mutable list
+    val ctx = LocalContext.current
+    val state by viewModel.otpResponse.collectAsState()
+    val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
     var otp1 by remember { mutableStateOf(TextFieldValue("")) }
     var otp2 by remember { mutableStateOf(TextFieldValue("")) }
     var otp3 by remember { mutableStateOf(TextFieldValue("")) }
@@ -43,7 +54,8 @@ fun OTPScreen(navController: NavController) {
     val focusRequester3 = FocusRequester()
     val focusRequester4 = FocusRequester()
     val focusRequester5 = FocusRequester()
-
+    val loadingState = remember { mutableStateOf(false) }
+    val email = shareReference.getString("email","")
     //count down
     val timer = object : CountDownTimer(12000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
@@ -87,7 +99,7 @@ fun OTPScreen(navController: NavController) {
         Text(text = "OTP Verification", fontSize = 26.sp, fontWeight = FontWeight.Bold)
         Text(
             text = buildAnnotatedString {
-                append("We sent your code to +8801737-***\nThis code is expired in ")
+                append("We sent your code to your email\nThis code is expired in ")
                 withStyle(
                     style = SpanStyle(
                         fontWeight = FontWeight.Bold,
@@ -147,17 +159,22 @@ fun OTPScreen(navController: NavController) {
         Spacer(modifier = Modifier.fillMaxHeight(0.3f))
         CustomDefaultBtn(shapeSize = 50f, btnText = "Verify") {
             if ((otp1.text + otp2.text + otp3.text + otp4.text + otp5.text).length == 5) {
-                navController.navigate(AuthScreen.SignInScreen.route)
+                viewModel.otp(email.toString(),"${otp1.text}${otp2.text}${otp3.text}${otp4.text}${otp5.text}")
             }
         }
         Spacer(modifier = Modifier.fillMaxHeight(0.3f))
-        Text(
-            text = "Resend OTP Code",
-            style = TextStyle(textDecoration = TextDecoration.Underline),
-            color = MaterialTheme.colors.TextColor,
-            fontWeight = FontWeight(500),
-            modifier = Modifier.clickable {
-
-            })
+        LaunchedEffect(state){
+            loadingState.value = true
+            if(state!=null){
+                Log.e("OTP Code", "${otp1.text}${otp2.text}${otp3.text}${otp4.text}${otp5.text}")
+                Log.e("email", email.toString())
+                Log.e("OTP Code sau log", state!!.otpCode)
+                navController.navigate(AuthScreen.SignInScreen.route)
+            }
+            loadingState.value = false
+        }
+        if(loadingState.value){
+            CircularProgressIndicator()
+        }
     }
 }

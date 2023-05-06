@@ -6,19 +6,27 @@ import com.eritlab.jexmon.domain.item.UserRegisterRequestItem
 import com.eritlab.jexmon.domain.item.UserRegisterResponseItem
 import com.eritlab.jexmon.domain.use_case.user_login.UserRegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(private val userRegisterUseCase: UserRegisterUseCase): ViewModel(){
-    private  val _register = MutableStateFlow<UserRegisterResponseItem?>(null)
+    private val _register = MutableStateFlow<UserRegisterResponseItem?>(null)
     val registerResponse:StateFlow<UserRegisterResponseItem?> get() = _register
+    init {
 
+    }
     fun register(firstName:String, lastName:String, email:String,password:String,address:String,phoneNumber:String){
-        viewModelScope.launch {
-            val registerToPage = UserRegisterRequestItem(address, email, firstName, lastName, password, phoneNumber)
-            _register.value = userRegisterUseCase(registerToPage)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val registerToPage = UserRegisterRequestItem(address, email, firstName, lastName, password, phoneNumber)
+                _register.value = userRegisterUseCase(registerToPage)
+            }
+            catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }
