@@ -1,6 +1,7 @@
 package com.eritlab.jexmon.di
 
 import com.eritlab.jexmon.domain.repository.BookStoreAPI
+import com.eritlab.jexmon.domain.repository.UserAPI
 import com.eritlab.jexmon.utils.ConstantsBookStore
 import dagger.Module
 import dagger.Provides
@@ -40,5 +41,10 @@ object RetrofitModule {
     @Provides
     fun provideBookStoreApi(retrofit: Retrofit): BookStoreAPI {
         return retrofit.create(BookStoreAPI::class.java)
+    }
+    @Singleton
+    @Provides
+    fun provideUserApi(retrofit: Retrofit): UserAPI {
+        return retrofit.create(UserAPI::class.java)
     }
 }

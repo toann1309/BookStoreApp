@@ -8,12 +8,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface BookStoreAPI {
-    @GET("all")
+    @GET("product/all")
     suspend fun getBook(): Response<List<BookModel>>
-    @GET("{id}")
+    @GET("product/{id}")
     suspend fun getDetailBook(@Path("id") id:Int):BookDetailModel
-    @GET("search")
+    @GET("product/search")
     suspend fun searchBook(@Query("keyword") keyword:String):Response<List<BookModel>>
-    @GET("filter")
+    @GET("product/filter")
     suspend fun filterBook(@Query("price") price:String, @Query("publisher") publisher:String):Response<List<BookModel>>
 }

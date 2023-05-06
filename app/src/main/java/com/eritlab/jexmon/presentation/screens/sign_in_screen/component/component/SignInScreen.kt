@@ -1,13 +1,18 @@
 package com.eritlab.jexmon.presentation.screens.sign_in_screen.component
 
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.internal.isLiveLiteralsEnabled
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -18,8 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.domain.use_case.user_login.UserLoginUseCase
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomTextField
 import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
@@ -29,8 +36,11 @@ import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hiltViewModel()
+) {
+    val state by viewModel.loginResponse.collectAsState()
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var password by remember { mutableStateOf(TextFieldValue("")) }
 
@@ -46,8 +56,9 @@ fun LoginScreen(navController: NavController) {
     val passwordErrorStateMessage = remember{
         mutableStateOf("")
     }
-
-
+    val loadingState = remember { mutableStateOf(false) }
+    val errorState = remember { mutableStateOf("") }
+    val ctx = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +70,7 @@ fun LoginScreen(navController: NavController) {
             modifier = Modifier
                 .height(56.dp)
                 .fillMaxWidth()
-                .offset(y=0.dp)
+                .offset(y = 0.dp)
                 .padding(horizontal = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -163,10 +174,9 @@ fun LoginScreen(navController: NavController) {
                     passwordErrorState.value=false
                 }
             }
-//            emailErrorState.value = !isEmailValid
-//            passwordErrorState.value = !isPassValid
             if (isEmailValid && isPassValid) {
-                navController.navigate(AuthScreen.SignInSuccess.route)
+                loadingState.value = true
+                viewModel.login(email.text,password.text)
             }
         }
         Column(
@@ -190,9 +200,39 @@ fun LoginScreen(navController: NavController) {
                     })
             }
         }
+        if(state!=null){
+            Log.e("Sau đây", state!!.status)
+            if(loadingState.value == true){
+                CircularProgressIndicator()
+                loadingState.value = false
+                LaunchedEffect(state!!.status){
+                    if(state!!.status == "Mật khẩu sai"){
+                        errorState.value = "Mật khẩu sai"
+                        Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
+//                errorState.value = ""
+                    }
+                    if(state!!.status == "Email này chưa đăng ký"){
+                        errorState.value = "Email này chưa đăng ký"
+                        Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
+//                errorState.value = ""
+                    }
+                    if(state!!.status == "Tài khoản chưa được kích hoạt"){
+                        errorState.value = "Tài khoản chưa được kích hoạt"
+                        Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
+                    }
+//            CircularProgressIndicator()
+                    if(state!!.status == "Đăng nhập thành công"){
+//                    Toast.makeText(ctx,state!!.status,Toast.LENGTH_LONG).show()
+                            navController.navigate(AuthScreen.SignInSuccess.route)
+                            loadingState.value=true
 
+                    }
+                }
+            }
 
+        }
     }
+
 }
 
 

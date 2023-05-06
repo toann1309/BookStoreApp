@@ -20,7 +20,7 @@ import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 fun CustomDefaultBtn(
     shapeSize: Float,
     btnText: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
         modifier = Modifier
