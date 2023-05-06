@@ -2,6 +2,7 @@ package com.eritlab.jexmon.presentation.screens.otp_screen.component
 
 
 import android.os.CountDownTimer
+import android.util.Patterns
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -70,7 +71,7 @@ fun OTPScreen(navController: NavController) {
         {
             Box(modifier = Modifier.weight(0.5f)) {
                 DefaultBackArrow {
-                    //     navController.popBackStack()
+                    navController.popBackStack()
                 }
             }
             Box(modifier = Modifier.weight(1.0f)) {

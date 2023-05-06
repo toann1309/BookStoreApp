@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
@@ -30,7 +31,7 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SignUpScreen(navController: NavController) {
+fun SignUpScreen(navController: NavController, viewModel:SignUpViewModel = hiltViewModel()) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var password by remember { mutableStateOf(TextFieldValue("")) }
     var firstName by remember { mutableStateOf(TextFieldValue("")) }
@@ -39,14 +40,12 @@ fun SignUpScreen(navController: NavController) {
     var address by remember { mutableStateOf(TextFieldValue("")) }
     val emailErrorState = remember { mutableStateOf(false) }
     val passwordErrorState = remember { mutableStateOf(false) }
-    val conPasswordErrorState = remember { mutableStateOf(false) }
     val firstNameErrorState = remember { mutableStateOf(false) }
     val lastNameErrorState = remember { mutableStateOf(false) }
     val phoneNumberErrorState = remember { mutableStateOf(false) }
     val addressErrorState = remember { mutableStateOf(false) }
     val emailErrorStateMessage = remember { mutableStateOf("") }
     val passwordErrorStateMessage = remember { mutableStateOf("") }
-    val conPasswordErrorStateMessage = remember { mutableStateOf("") }
     val firstNameErrorStateMessage = remember { mutableStateOf("") }
     val lastNameErrorStateMessage = remember { mutableStateOf("") }
     val phoneNumberErrorStateMessage = remember { mutableStateOf("") }
@@ -176,41 +175,105 @@ fun SignUpScreen(navController: NavController) {
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 if (emailErrorState.value) {
-                    ErrorSuggestion("Please enter valid email address.")
+                    ErrorSuggestion(emailErrorStateMessage.value)
                 }
                 if (passwordErrorState.value) {
                     Row() {
-                        ErrorSuggestion("Please enter valid password.")
+                        ErrorSuggestion(passwordErrorStateMessage.value)
                     }
                 }
-                if (conPasswordErrorState.value) {
-                    ErrorSuggestion("Confirm Password miss matched.")
+                if (lastNameErrorState.value) {
+                    ErrorSuggestion(lastNameErrorStateMessage.value)
                 }
-                if (firstNameErrorState.value || lastNameErrorState.value) {
-                    ErrorSuggestion("Please enter valid name.")
+                if (firstNameErrorState.value) {
+                    ErrorSuggestion(firstNameErrorStateMessage.value)
                 }
                 if (phoneNumberErrorState.value) {
-                    ErrorSuggestion("Please enter valid phone number.")
+                    ErrorSuggestion(phoneNumberErrorStateMessage.value)
                 }
                 if (addressErrorState.value) {
-                    ErrorSuggestion("Please enter valid address.")
+                    ErrorSuggestion(addressErrorStateMessage.value)
                 }
                 CustomDefaultBtn(shapeSize = 50f, btnText = "Continue") {
                     //email pattern
                     val pattern = Patterns.EMAIL_ADDRESS
                     val isEmailValid = pattern.matcher(email.text).matches()
-                    val isPassValid = password.text.length >= 8
-                    val isPhoneValid = phoneNumber.text.isEmpty() || phoneNumber.text.length < 4
-                    val isFNameValid = firstName.text.isEmpty() || firstName.text.length < 3
-                    val isLNameValid = lastName.text.isEmpty() || lastName.text.length < 3
-                    val isAddressValid = address.text.isEmpty() || address.text.length < 5
-                    emailErrorState.value = !isEmailValid
-                    passwordErrorState.value = !isPassValid
-                    firstNameErrorState.value = !isFNameValid
-                    lastNameErrorState.value = !isLNameValid
-                    addressErrorState.value = !isAddressValid
-                    phoneNumberErrorState.value = !isPhoneValid
-                    if (isEmailValid && isPassValid &&!isFNameValid && !isLNameValid && !isAddressValid && !isPhoneValid) {
+                    val isPassValid = password.text.length >= 6
+                    val isPhoneValid = phoneNumber.text.length > 0
+                    val isFNameValid = firstName.text.length > 0
+                    val isLNameValid = lastName.text.length > 0
+                    val isAddressValid = address.text.length > 0
+                    if(email.text.isBlank()){
+                        if(emailErrorState.value==false){
+                            emailErrorState.value=true
+                            emailErrorStateMessage.value="Email must have input"
+                        }
+                    }else{
+                        if(!isEmailValid){
+                            emailErrorState.value=true
+                            emailErrorStateMessage.value="Email is false format"
+                        }else{
+                            emailErrorState.value=false
+                        }
+                    }
+
+                    if(password.text.isBlank()){
+                        if(passwordErrorState.value == false){
+                            passwordErrorState.value=true
+                            passwordErrorStateMessage.value="Password must have input"
+                        }
+                    }
+                    else{
+                        if(0<password.text.length&&password.text.length<6){
+                            passwordErrorState.value=true
+                            passwordErrorStateMessage.value="Password at least 6 character"
+                        }else{
+                            passwordErrorState.value=false
+                        }
+                    }
+                    if(firstName.text.isBlank()){
+                        if(firstNameErrorState.value==false){
+                            firstNameErrorState.value=true
+                            firstNameErrorStateMessage.value="First Name must have input"
+                        }
+                    }
+                    else{
+                        firstNameErrorState.value=false
+                    }
+                    if(lastName.text.isBlank()){
+                        if(lastNameErrorState.value==false){
+                            lastNameErrorState.value=true
+                            lastNameErrorStateMessage.value="First Name must have input"
+                        }
+                    }
+                    else{
+                        lastNameErrorState.value=false
+                    }
+                    if(phoneNumber.text.isBlank()){
+                        if(phoneNumberErrorState.value==false){
+                            phoneNumberErrorState.value=true
+                            phoneNumberErrorStateMessage.value="First Name must have input"
+                        }
+                    }
+                    else{
+                        phoneNumberErrorState.value=false
+                    }
+                    if(address.text.isBlank()){
+                        if(addressErrorState.value==false){
+                            addressErrorState.value=true
+                            addressErrorStateMessage.value="First Name must have input"
+                        }
+                    }
+                    else{
+                        addressErrorState.value=false
+                    }
+//                    emailErrorState.value = !isEmailValid
+//                    passwordErrorState.value = !isPassValid
+//                    firstNameErrorState.value = !isFNameValid
+//                    lastNameErrorState.value = !isLNameValid
+//                    addressErrorState.value = !isAddressValid
+//                    phoneNumberErrorState.value = !isPhoneValid
+                    if (isEmailValid && isPassValid && isFNameValid && isLNameValid && isAddressValid && isPhoneValid) {
                         navController.navigate(AuthScreen.OTPScreen.route)
                     }
                 }
@@ -247,7 +310,6 @@ fun SignUpScreen(navController: NavController) {
                                 color = MaterialTheme.colors.PrimaryColor,
                                 fontSize = 12.sp,
                                 modifier = Modifier.clickable {
-
                                 })
                         }
 

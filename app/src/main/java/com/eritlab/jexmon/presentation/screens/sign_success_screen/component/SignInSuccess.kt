@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.sign_success_screen.component
 
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -16,6 +17,7 @@ import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.graphs.Graph
+import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 
 @Composable
 fun SignInScreen(navController: NavController) {

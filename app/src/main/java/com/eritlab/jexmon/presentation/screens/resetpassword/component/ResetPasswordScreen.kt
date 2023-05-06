@@ -3,7 +3,6 @@ package com.eritlab.jexmon.presentation.screens.resetpassword.component
 import android.util.Patterns
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -125,8 +124,7 @@ fun ResetPasswordScreen(navController: NavController){
                     if(otp.text.length > 0 && otp.text.length != 5){
                         otpErrorState.value = true
                         otpErrorStateMessage.value="OTP must be 5 character"
-                    }
-                    else{
+                    } else{
                         otpErrorState.value = false
                     }
                 }
@@ -135,8 +133,7 @@ fun ResetPasswordScreen(navController: NavController){
                         passwordErrorState.value=true
                         passwordErrorStateMessage.value="Password must have input"
                     }
-                }
-                else{
+                } else{
                     if(0<passNew.text.length&&passNew.text.length<6){
                         passwordErrorState.value=true
                         passwordErrorStateMessage.value="Password at least 6 character"
@@ -144,8 +141,8 @@ fun ResetPasswordScreen(navController: NavController){
                         passwordErrorState.value=false
                     }
                 }
-//                passwordErrorState.value = !isNewPassValid
-//                otpErrorState.value = !isOptValid
+            //                passwordErrorState.value = !isNewPassValid
+            //                otpErrorState.value = !isOptValid
                 if (isNewPassValid && isOptValid) {
                     navController.navigate(AuthScreen.SignInScreen.route)
                 }
