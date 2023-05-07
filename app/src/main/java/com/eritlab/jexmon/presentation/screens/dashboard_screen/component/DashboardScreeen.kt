@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -26,9 +27,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
 import com.eritlab.jexmon.presentation.screens.dashboard_screen.DashboardViewModel
+import com.eritlab.jexmon.presentation.screens.dashboard_screen.PopularBookViewModel
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
@@ -37,11 +40,11 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 fun DashboardScreen(
     popularProductState: LazyListState = rememberLazyListState(),
     suggestionProductState: LazyListState = rememberLazyListState(),
-    productViewModel: DashboardViewModel = hiltViewModel(),
+    productViewModel: PopularBookViewModel = hiltViewModel(),
     onItemClick: (Int) -> Unit,
 ) {
     val navHostController = rememberNavController()
-    val state = productViewModel.state.value
+    val state by productViewModel.popular.collectAsState()
 
     Column(
         modifier = Modifier
@@ -262,15 +265,24 @@ fun DashboardScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-
+        val isLoading = state.isEmpty()
+        if(isLoading){
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(align = Alignment.Center)
+                    .fillMaxHeight(),
+            )
+        }
         //popular product
         LazyRow(
             state = suggestionProductState,
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             contentPadding = PaddingValues(horizontal = 10.dp)
         ) {
-            items(state.product!!.size) {
 
+            items(state!!.size) {
+                val image = rememberImagePainter(data = state[it].imagePath)
                 //favourite state rememberable
                 Column {
                     Box(
@@ -279,17 +291,17 @@ fun DashboardScreen(
                             .background(Color.LightGray, shape = RoundedCornerShape(10.dp))
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
-                                onItemClick(state.product[it].id)
+                                onItemClick(state[it].id)
                             },
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = painterResource(id = state.product[it].images[0]),
-                            contentDescription = state.product[it].description
+                            painter = image,
+                            contentDescription = "Image"
                         )
                     }
                     Text(
-                        text = state.product[it].title,
+                        text = state[it].productName,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.width(150.dp)
@@ -303,7 +315,7 @@ fun DashboardScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "$ ${state.product[it].price}",
+                            text = "$ ${state[it].price}",
                             fontWeight = FontWeight(600),
                             color = MaterialTheme.colors.PrimaryColor
                         )

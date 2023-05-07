@@ -29,4 +29,10 @@ class BookService @Inject constructor(private val bookStoreAPI: BookStoreAPI){
             booksFilter.body()?: emptyList()
         }
     }
+    suspend fun getPopuplarBook():List<BookModel>{
+        return withContext(Dispatchers.IO){
+            val getPopularBook = bookStoreAPI.getPopularBook();
+            getPopularBook.body()?: emptyList()
+        }
+    }
 }

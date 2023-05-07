@@ -21,4 +21,9 @@ class BookRepository @Inject constructor(private val bookService: BookService) {
             it.toBookItem()
         }
     }
+    suspend fun getPopularBook():List<BookItem>{
+        return bookService.getPopuplarBook().map {
+            it.toBookItem()
+        }
+    }
 }

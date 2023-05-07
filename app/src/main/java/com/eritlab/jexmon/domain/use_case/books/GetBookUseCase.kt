@@ -12,5 +12,4 @@ class GetBookUseCase @Inject constructor(private val bookRepository: BookReposit
     suspend operator fun invoke():List<BookItem>{
         return bookRepository.getBooks().shuffled()
     }
-
 }
