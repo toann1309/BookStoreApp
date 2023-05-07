@@ -1,17 +1,12 @@
-package com.eritlab.jexmon.presentation.screens.cart_screen.component
+package com.eritlab.jexmon.presentation.screens.checkout_screen.component
 
-import android.service.autofill.OnClickAction
+import android.location.Address
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,32 +15,41 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
-import com.eritlab.jexmon.presentation.ui.theme.TextColor
+import androidx.navigation.Navigator
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
-import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
+import com.eritlab.jexmon.presentation.common.CustomTextField
+import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
-import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
+import com.eritlab.jexmon.presentation.ui.theme.TextColor
+import kotlinx.coroutines.NonDisposableHandle.parent
 
-
-
+@Preview(showBackground = true)
 @Composable
-fun CartScreen(
-    navController: NavController,
-    popBack: () -> Unit,
 
-    ) {
+fun CheckOut() {
+    var phoneNumber by remember { mutableStateOf(TextFieldValue("")) }
+    var Name by remember { mutableStateOf(TextFieldValue("")) }
+    var address by remember { mutableStateOf(TextFieldValue("")) }
+    val NameErrorState = remember { mutableStateOf(false) }
+    val addressErrorState = remember { mutableStateOf(false) }
+    val phoneNumberErrorState = remember { mutableStateOf(false) }
+    var selected by remember { mutableStateOf(false) }
+
     var itemDrag by remember { mutableStateOf(0f) }
 
-
     ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
-        val (topBar, product, checkout) = createRefs()
-
+        val (topBar, input, product, method, total) = createRefs()
         Row(
             modifier = Modifier
                 .padding(top = 15.dp, start = 15.dp, end = 15.dp)
@@ -59,19 +63,8 @@ fun CartScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.weight(0.5f)) {
-                IconButton(
-                    onClick = {
-                        popBack()
-                    },
-                    modifier = Modifier
-                        .background(color = Color.White, shape = CircleShape)
-                        .clip(CircleShape)
+                DefaultBackArrow {
 
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.back_icon),
-                        contentDescription = null
-                    )
                 }
             }
             Box(modifier = Modifier.weight(0.7f)) {
@@ -79,17 +72,11 @@ fun CartScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Your Cart",
+                        text = "Checkout",
                         color = MaterialTheme.colors.TextColor,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        text = "4 items",
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.TextColor,
-                    )
-
                 }
             }
 
@@ -97,14 +84,66 @@ fun CartScreen(
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(product) {
+                .fillMaxSize()
+                .constrainAs(input){
                     top.linkTo(topBar.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
                 .wrapContentHeight()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            CustomTextField(
+                placeholder = "Nguyễn Văn A",
+                trailingIcon = R.drawable.user,
+                label = "Name",
+                errorState = NameErrorState,
+                keyboardType = KeyboardType.Text,
+                visualTransformation = VisualTransformation.None,
+                onChanged = { newText ->
+                    Name = newText
+                }
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+
+            CustomTextField(
+                placeholder = "Ho Chi Minh City",
+                trailingIcon = R.drawable.location_point,
+                label = "Address",
+                errorState = addressErrorState,
+                keyboardType = KeyboardType.Text,
+                visualTransformation = VisualTransformation.None,
+                onChanged = { newText ->
+                    address = newText
+                }
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+
+            CustomTextField(
+                placeholder = "099999999",
+                trailingIcon = R.drawable.phone,
+                label = "Phone",
+                errorState = phoneNumberErrorState,
+                keyboardType = KeyboardType.Text,
+                visualTransformation = VisualTransformation.None,
+                onChanged = { newText ->
+                    phoneNumber = newText
+                }
+            )
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .constrainAs(product){
+                    top.linkTo(input.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+                .wrapContentHeight()
+        ){
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -254,86 +293,97 @@ fun CartScreen(
                     }
                 }
             }
-
-
         }
 
 
-
-
-        Column(
+        Row(
             modifier = Modifier
-                .wrapContentHeight()
-                .constrainAs(checkout) {
-                    bottom.linkTo(parent.bottom)
+                .fillMaxWidth()
+                .constrainAs(method){
+                    top.linkTo(product.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    top.linkTo(product.bottom)
                 }
-                .background(
-                    color = MaterialTheme.colors.PrimaryLightColor,
-                    shape = RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp)
-                )
-                .clip(RoundedCornerShape(topStart = 15.dp, topEnd = 15.dp))
-                .padding(20.dp)
+                .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.receipt),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.PrimaryColor,
-                    modifier = Modifier
-                        .size(45.dp)
-                        .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(15.dp))
-                        .padding(10.dp)
-                        .clip(RoundedCornerShape(15.dp))
+                Text(
+                    text = "Phương thức thanh toán",
+                    fontSize = 18.sp,
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    Text("Add vouture Code")
-                    Icon(
-                        painter = painterResource(id = R.drawable.arrow_right),
-                        contentDescription = null,
-                    )
-                }
+
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    text = "Ví điện tử",
+                    fontSize = 18.sp,
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    text = "Thanh toán khi nhận hàng",
+                    fontSize = 18.sp,
+                )
+
             }
-            //btn
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+
+
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
             ) {
-                Column() {
-                    Text(text = "Total")
-                    Text(
-                        text = "$266.78",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.PrimaryColor
-                    )
 
-                }
-                Box(
-                    modifier = Modifier
-                        .width(150.dp)
-                ) {
-                    CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out",
-                        onClick = {
-                            navController.navigate(DetailScreen.CheckOut.route)
-                        }
-                    )
-                }
-
+                RadioButton(
+                    selected = selected,
+                    onClick = { selected = true },
+                    modifier = Modifier.padding(16.dp, 64.dp, 10.dp, 0.dp)
+                )
+                RadioButton(
+                    selected = selected,
+                    onClick = { selected = true },
+                    modifier = Modifier.padding(16.dp, 0.dp, 10.dp, 16.dp)
+                )
             }
-
 
         }
 
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .constrainAs(total){
+                    top.linkTo(method.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                }
+                .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            ) {
+                Text(text = "Total")
+                Text(
+                    text = "$266.78",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.PrimaryColor
+                )
+
+            }
+            Box(
+                modifier = Modifier
+                    .width(150.dp)
+            ) {
+                CustomDefaultBtn(shapeSize = 15f, btnText = "Oder") {
+
+                }
+            }
+
+        }
     }
+
 }
