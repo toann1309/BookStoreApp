@@ -16,4 +16,6 @@ interface BookStoreAPI {
     suspend fun searchBook(@Query("keyword") keyword:String):Response<List<BookModel>>
     @GET("product/filter")
     suspend fun filterBook(@Query("price") price:String, @Query("publisher") publisher:String):Response<List<BookModel>>
+    @GET("product/popular")
+    suspend fun getPopularBook():Response<List<BookModel>>
 }

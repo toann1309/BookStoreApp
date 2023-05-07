@@ -19,4 +19,5 @@ class UserService @Inject constructor(private val userAPI: UserAPI) {
     suspend fun otp(userOTPRequestItem: UserOTPRequestItem):UserOTPResponseModel{
         return userAPI.otp(userOTPRequestItem)
     }
+
 }
