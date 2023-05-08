@@ -6,4 +6,6 @@ sealed class DetailScreen( val route: String) {
     object ProductDetailScreen : DetailScreen("product_detail_screen")
 
     object CheckOut : DetailScreen("checkout_screen")
+
+//    object DetailCheckOut : DetailScreen("detail_checkout_screen")
 }
