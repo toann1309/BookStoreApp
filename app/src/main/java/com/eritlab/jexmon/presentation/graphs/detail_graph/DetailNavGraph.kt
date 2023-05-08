@@ -8,6 +8,7 @@ import com.eritlab.jexmon.common.Constrains
 import com.eritlab.jexmon.presentation.graphs.Graph
 import com.eritlab.jexmon.presentation.screens.cart_screen.component.CartScreen
 import com.eritlab.jexmon.presentation.screens.checkout_screen.component.CheckOut
+import com.eritlab.jexmon.presentation.screens.detail_checkout_screen.component.DetailsCheckOut
 import com.eritlab.jexmon.presentation.screens.notification_screen.component.NotificationScreen
 import com.eritlab.jexmon.presentation.screens.product_detail_screen.component.ProductDetailScreen
 
@@ -34,5 +35,8 @@ fun NavGraphBuilder.detailNavGraph(navController: NavHostController) {
         composable(DetailScreen.CheckOut.route){
             CheckOut()
         }
+//        composable(DetailScreen.CheckOut.route){
+//            DetailsCheckOut()
+//        }
     }
 }

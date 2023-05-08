@@ -1,6 +1,7 @@
 package com.eritlab.jexmon.presentation.screens.checkout_screen.component
 
 import android.location.Address
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
@@ -40,11 +41,11 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 fun CheckOut() {
     var phoneNumber by remember { mutableStateOf(TextFieldValue("")) }
     var Name by remember { mutableStateOf(TextFieldValue("")) }
-    var address by remember { mutableStateOf(TextFieldValue("")) }
     val NameErrorState = remember { mutableStateOf(false) }
+    var address by remember { mutableStateOf(TextFieldValue("")) }
     val addressErrorState = remember { mutableStateOf(false) }
     val phoneNumberErrorState = remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(false) }
+    var selectedOption by remember { mutableStateOf("cash") }
 
     var itemDrag by remember { mutableStateOf(0f) }
 
@@ -337,13 +338,14 @@ fun CheckOut() {
             ) {
 
                 RadioButton(
-                    selected = selected,
-                    onClick = { selected = true },
+                    selected = selectedOption == "cash",
+                    onClick = { selectedOption = "cash" },
                     modifier = Modifier.padding(16.dp, 64.dp, 10.dp, 0.dp)
+
                 )
                 RadioButton(
-                    selected = selected,
-                    onClick = { selected = true },
+                    selected = selectedOption == "card",
+                    onClick = { selectedOption = "card" },
                     modifier = Modifier.padding(16.dp, 0.dp, 10.dp, 16.dp)
                 )
             }
@@ -382,8 +384,10 @@ fun CheckOut() {
 
                 }
             }
+            LaunchedEffect(selectedOption) {
+                Log.d("RadioButtonExample", "Selected option: $selectedOption")
+            }
 
         }
     }
-
 }
