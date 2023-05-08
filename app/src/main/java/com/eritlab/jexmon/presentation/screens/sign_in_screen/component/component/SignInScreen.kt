@@ -200,36 +200,31 @@ fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hi
                     })
             }
         }
-        if(state!=null){
-            Log.e("Sau đây", state!!.status)
-            if(loadingState.value == true){
-                CircularProgressIndicator()
-                loadingState.value = false
-                LaunchedEffect(state!!.status){
-                    if(state!!.status == "Mật khẩu sai"){
-                        errorState.value = "Mật khẩu sai"
-                        Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
-//                errorState.value = ""
-                    }
-                    if(state!!.status == "Email này chưa đăng ký"){
-                        errorState.value = "Email này chưa đăng ký"
-                        Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
-//                errorState.value = ""
-                    }
-                    if(state!!.status == "Tài khoản chưa được kích hoạt"){
-                        errorState.value = "Tài khoản chưa được kích hoạt"
-                        Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
-                    }
-//            CircularProgressIndicator()
-                    if(state!!.status == "Đăng nhập thành công"){
-//                    Toast.makeText(ctx,state!!.status,Toast.LENGTH_LONG).show()
-                            navController.navigate(AuthScreen.SignInSuccess.route)
-                            loadingState.value=true
+        LaunchedEffect(state){
+            loadingState.value = true
+            if(state!=null){
+                Log.e("Sau đây", state!!.status)
+                if(state!!.status == "Mật khẩu sai"){
+                    errorState.value = "Mật khẩu sai"
+                    Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
 
-                    }
                 }
+                if(state!!.status == "Email này chưa đăng ký"){
+                    errorState.value = "Email này chưa đăng ký"
+                    Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
+                }
+                if(state!!.status == "Tài khoản chưa được kích hoạt"){
+                    errorState.value = "Tài khoản chưa được kích hoạt"
+                    Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
+                }
+                if(state!!.status == "Đăng nhập thành công"){
+                    navController.navigate(AuthScreen.SignInSuccess.route)
+                }
+                loadingState.value=true
             }
-
+        }
+        if(loadingState.value){
+            CircularProgressIndicator()
         }
     }
 
