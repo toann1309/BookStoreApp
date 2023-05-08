@@ -117,7 +117,7 @@ fun ForgetPasswordScreen(navController: NavController) {
                     text = "Sign Up",
                     color = MaterialTheme.colors.PrimaryColor,
                     modifier = Modifier.clickable {
-                        navController.navigate(AuthScreen.SignUpScreen.route)
+                        navController.navigate(AuthScreen.ResetPasswordScreen.route)
                     })
             }
         }

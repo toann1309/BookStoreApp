@@ -175,7 +175,7 @@ fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hi
                 }
             }
             if (isEmailValid && isPassValid) {
-                loadingState.value = true
+
                 viewModel.login(email.text,password.text)
             }
         }

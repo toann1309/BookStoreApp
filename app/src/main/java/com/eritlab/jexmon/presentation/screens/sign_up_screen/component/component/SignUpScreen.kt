@@ -264,7 +264,6 @@ fun SignUpScreen(navController: NavController, viewModel:SignUpViewModel = hiltV
                 addressErrorState.value=false
             }
             if (isEmailValid && isPassValid && isFNameValid && isLNameValid && isAddressValid && isPhoneValid) {
-                loadingState.value = true
                 editor.putString("email",email.text)
                 editor.apply()
                 viewModel.register(firstName.text, lastName.text, email.text, password.text, address.text,phoneNumber.text)

@@ -168,7 +168,7 @@ fun OTPScreen(
             if(state!=null){
                 Log.e("OTP Code", "${otp1.text}${otp2.text}${otp3.text}${otp4.text}${otp5.text}")
                 Log.e("email", email.toString())
-                Log.e("OTP Code sau log", state!!.otpCode)
+//                Log.e("OTP Code sau log", state!!.otpCode)
                 navController.navigate(AuthScreen.SignInScreen.route)
             }
             loadingState.value = false
