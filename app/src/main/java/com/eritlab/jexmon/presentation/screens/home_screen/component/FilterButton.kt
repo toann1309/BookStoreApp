@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.eritlab.jexmon.common.Constrains
-import com.eritlab.jexmon.presentation.common.component.CustomDialog
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.CustomDialog
 import com.eritlab.jexmon.presentation.graphs.filter_graph.FilterGameScreen
 import com.eritlab.jexmon.presentation.graphs.option_graph.OptionScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor

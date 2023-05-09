@@ -21,8 +21,8 @@ import androidx.navigation.NavController
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomTextField
-import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
-import com.eritlab.jexmon.presentation.common.component.ErrorSuggestion
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.ErrorSuggestion
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor

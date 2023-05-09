@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
-import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.screens.sign_in_screen.component.OTPTexField
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
