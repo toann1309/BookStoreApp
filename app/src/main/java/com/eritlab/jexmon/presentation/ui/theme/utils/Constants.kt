@@ -1,4 +1,4 @@
-package com.eritlab.jexmon.utils
+package com.eritlab.jexmon.presentation.ui.theme.utils
 
 class Constants {
     companion object{

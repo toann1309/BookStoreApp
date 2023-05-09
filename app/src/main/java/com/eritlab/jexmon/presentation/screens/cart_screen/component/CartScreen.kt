@@ -40,6 +40,8 @@ fun CartScreen(
     navController: NavController,
     popBack: () -> Unit,
 
+
+
     ) {
 //    val state = viewModel.state.value
     val context = LocalContext.current
@@ -615,11 +617,9 @@ fun CartScreen(
                     modifier = Modifier
                         .width(150.dp)
                 ) {
-                    CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out",
-                        onClick = {
-                            navController.navigate(DetailScreen.CheckOut.route)
-                        }
-                    )
+                    CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out"){
+                        navController.navigate(DetailScreen.CheckOut.route)
+                    }
                 }
 
             }

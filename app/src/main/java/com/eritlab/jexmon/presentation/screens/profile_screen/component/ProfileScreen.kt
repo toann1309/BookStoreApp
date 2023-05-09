@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.HorizontalAnchorable
-import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
-import com.eritlab.jexmon.presentation.common.component.ModalUpdateProfile
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.ModalUpdateProfile
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 
 @Composable

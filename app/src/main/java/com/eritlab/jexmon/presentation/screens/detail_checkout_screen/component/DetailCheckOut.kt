@@ -23,24 +23,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
+import com.eritlab.jexmon.presentation.common.CustomDefaultBtnGray
 import com.eritlab.jexmon.presentation.common.CustomTextField
-import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
+import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.SecondaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 
 @Composable
 
-fun DetailsCheckOut () {
+fun DetailsCheckOut (
+    navController: NavController,
+    popBack: () -> Unit,
+) {
     var information by remember { mutableStateOf(TextFieldValue("")) }
     val infomationErrorState = remember { mutableStateOf(false) }
 
     ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
-        val (topBar, input, product, method, total) = createRefs()
+        val (topBar, inFo, product, btn) = createRefs()
         Row(
             modifier = Modifier
                 .padding(top = 15.dp, start = 15.dp, end = 15.dp)
@@ -80,6 +88,11 @@ fun DetailsCheckOut () {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(18.dp, 30.dp, 18.dp, 18.dp)
+                .constrainAs(inFo) {
+                    top.linkTo(topBar.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
 
         ) {
             Spacer(modifier = Modifier.height(20.dp))
@@ -107,198 +120,197 @@ fun DetailsCheckOut () {
                 )
             }
 
-            Column(
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(18.dp, 30.dp, 18.dp, 18.dp)
+                .wrapContentHeight()
+                .constrainAs(product) {
+                    top.linkTo(inFo.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+        ){
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight()
-            ){
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(15.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
+                    .padding(15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
 
-                    Column() {
-                        Text(
-                            text = "Wireless Controller for PS4™",
-                            fontWeight = FontWeight(700),
-                            fontSize = 16.sp,
+                Column() {
+                    Text(
+                        text = "Wireless Controller for PS4™",
+                        fontWeight = FontWeight(700),
+                        fontSize = 16.sp,
 
-                            )
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                    }
-                    Column() {
-                        Text(
-                            text = "$79.99",
-                            color = MaterialTheme.colors.PrimaryColor,
-                            fontSize = 16.sp,
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Column() {
-                        Text(
-                            text = "  x1",
-                            color = MaterialTheme.colors.TextColor,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                    }
                 }
-
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(15.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-
-                    Column() {
-                        Text(
-                            text = "High Quality Sport Shoes",
-                            fontWeight = FontWeight(700),
-                            fontSize = 16.sp,
-
-                            )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Column() {
-                        Text(
-                            text = "$100.25",
-                            color = MaterialTheme.colors.PrimaryColor,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Column() {
-
-                        Text(text = "  x1",
-                            color = MaterialTheme.colors.TextColor,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
+                Column() {
+                    Text(
+                        text = "$79.99",
+                        color = MaterialTheme.colors.PrimaryColor,
+                        fontSize = 16.sp,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
+                Column() {
+                    Text(
+                        text = "  x1",
+                        color = MaterialTheme.colors.TextColor,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
 
-
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(15.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-
-                    Column() {
-                        Text(
-                            text = "Nike Sport White - Man Pant",
-                            fontWeight = FontWeight(700),
-                            fontSize = 16.sp,
-
-                            )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Column() {
-                        Text(
-                            text = "$49.99",
-                            color = MaterialTheme.colors.PrimaryColor,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Column() {
-                        Text(
-                            text = "  x1",
-                            color = MaterialTheme.colors.TextColor,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                }
-
-
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(15.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-
-                    Column() {
-                        Text(
-                            text = "Gloves XC Omega - Polygon",
-                            fontWeight = FontWeight(700),
-                            fontSize = 16.sp,
-
-                            )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Column() {
-                        Text(
-                            text = "$36.55",
-                            color = MaterialTheme.colors.PrimaryColor,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    Column() {
-                        Text(
-                            text = "  x1",
-                            color = MaterialTheme.colors.TextColor,
-                            fontSize = 16.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
                 }
             }
+
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(60.dp)
-                        .padding(0.dp, 0.dp, 10.dp, 0.dp)
-                        .background(MaterialTheme.colors.SecondaryColor)
-                ) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Back",
-                        color = MaterialTheme.colors.PrimaryLightColor,
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center
-                    )
 
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(60.dp)
-                        .padding(0.dp, 0.dp, 10.dp, 0.dp)
-                        .background(MaterialTheme.colors.PrimaryColor),
-                ) {
+                Column() {
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Confirm",
-                        color = MaterialTheme.colors.PrimaryLightColor,
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center
+                        text = "High Quality Sport Shoes",
+                        fontWeight = FontWeight(700),
+                        fontSize = 16.sp,
+
+                        )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                Column() {
+                    Text(
+                        text = "$100.25",
+                        color = MaterialTheme.colors.PrimaryColor,
+                        fontSize = 16.sp
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                Column() {
+
+                    Text(text = "  x1",
+                        color = MaterialTheme.colors.TextColor,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
 
+
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+
+                Column() {
+                    Text(
+                        text = "Nike Sport White - Man Pant",
+                        fontWeight = FontWeight(700),
+                        fontSize = 16.sp,
+
+                        )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                Column() {
+                    Text(
+                        text = "$49.99",
+                        color = MaterialTheme.colors.PrimaryColor,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                Column() {
+                    Text(
+                        text = "  x1",
+                        color = MaterialTheme.colors.TextColor,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
+
+
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+
+                Column() {
+                    Text(
+                        text = "Gloves XC Omega - Polygon",
+                        fontWeight = FontWeight(700),
+                        fontSize = 16.sp,
+
+                        )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                Column() {
+                    Text(
+                        text = "$36.55",
+                        color = MaterialTheme.colors.PrimaryColor,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                Column() {
+                    Text(
+                        text = "  x1",
+                        color = MaterialTheme.colors.TextColor,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
         }
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(28.dp, 20.dp, 18.dp, 18.dp)
+                .constrainAs(btn) {
+                    top.linkTo(product.bottom)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(150.dp),
+
+                ) {
+                CustomDefaultBtnGray(shapeSize = 15f, btnText = "Back",) {
+                    navController.navigate(DetailScreen.CheckOut.route)
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .width(150.dp)
+            ) {
+                CustomDefaultBtn(shapeSize = 15f, btnText = "Comfirm",) {
+                    navController.navigate(ShopHomeScreen.DashboardScreen.route)
+                }
+            }
+        }
 
     }
 }
