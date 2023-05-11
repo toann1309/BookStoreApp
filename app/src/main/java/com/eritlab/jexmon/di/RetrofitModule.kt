@@ -2,7 +2,7 @@ package com.eritlab.jexmon.di
 
 import com.eritlab.jexmon.domain.repository.BookStoreAPI
 import com.eritlab.jexmon.domain.repository.UserAPI
-import com.eritlab.jexmon.presentation.ui.theme.utils.ConstantsBookStore
+import com.eritlab.jexmon.presentation.utils.ConstantsBookStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

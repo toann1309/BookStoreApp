@@ -28,7 +28,7 @@ import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtnGray
 import com.eritlab.jexmon.presentation.common.CustomTextField
-import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
@@ -42,7 +42,6 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 fun DetailsCheckOut (
     navController: NavController,
-    popBack: () -> Unit,
 ) {
     var information by remember { mutableStateOf(TextFieldValue("")) }
     val infomationErrorState = remember { mutableStateOf(false) }
@@ -58,14 +57,9 @@ fun DetailsCheckOut (
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 },
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(modifier = Modifier.weight(0.5f)) {
-                DefaultBackArrow {
-
-                }
-            }
             Box(modifier = Modifier.weight(0.7f)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -278,6 +272,32 @@ fun DetailsCheckOut (
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+
+                Column() {
+                    Text(
+                        text = "Total:",
+                        fontWeight = FontWeight(700),
+                        fontSize = 18.sp,
+
+                        )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+                Column() {
+                    Text(
+                        text = "$36.55",
+                        color = MaterialTheme.colors.PrimaryColor,
+                        fontSize = 18.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
         }
 
         Row(
@@ -295,18 +315,9 @@ fun DetailsCheckOut (
         ) {
             Box(
                 modifier = Modifier
-                    .width(150.dp),
-
-                ) {
-                CustomDefaultBtnGray(shapeSize = 15f, btnText = "Back",) {
-                    navController.navigate(DetailScreen.CheckOut.route)
-                }
-            }
-            Box(
-                modifier = Modifier
-                    .width(150.dp)
+                    .fillMaxWidth()
             ) {
-                CustomDefaultBtn(shapeSize = 15f, btnText = "Comfirm",) {
+                CustomDefaultBtn(shapeSize = 15f, btnText = "Back to Home",) {
                     navController.navigate(ShopHomeScreen.DashboardScreen.route)
                 }
             }

@@ -32,14 +32,10 @@ fun NavGraphBuilder.detailNavGraph(navController: NavHostController) {
             }
         }
         composable(DetailScreen.CheckOut.route){
-            CheckOut(navController = navController) {
-                navController.popBackStack()
-            }
+            CheckOut(navController = navController)
         }
         composable(DetailScreen.DetailCheckOut.route){
-            DetailsCheckOut(navController = navController){
-                navController.popBackStack()
-            }
+            DetailsCheckOut(navController = navController)
         }
     }
 }

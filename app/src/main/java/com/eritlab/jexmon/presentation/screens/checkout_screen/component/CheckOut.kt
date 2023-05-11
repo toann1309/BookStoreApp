@@ -30,7 +30,7 @@ import androidx.navigation.Navigator
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomTextField
-import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
@@ -41,7 +41,6 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 
 fun CheckOut(
     navController: NavController,
-    popBack: () -> Unit,
 ) {
     var phoneNumber by remember { mutableStateOf(TextFieldValue("")) }
     var Name by remember { mutableStateOf(TextFieldValue("")) }
@@ -69,7 +68,7 @@ fun CheckOut(
         ) {
             Box(modifier = Modifier.weight(0.5f)) {
                 DefaultBackArrow {
-
+                    navController.popBackStack()
                 }
             }
             Box(modifier = Modifier.weight(0.7f)) {

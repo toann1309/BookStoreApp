@@ -29,8 +29,8 @@ import com.eritlab.jexmon.R
 import com.eritlab.jexmon.domain.use_case.user_login.UserLoginUseCase
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomTextField
-import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
-import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.ErrorSuggestion
+import com.eritlab.jexmon.presentation.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.component.ErrorSuggestion
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
