@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.profile_screen.component
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,32 +12,46 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.HorizontalAnchorable
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.component.ModalUpdateProfile
+import com.eritlab.jexmon.presentation.graphs.Graph
+import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
+import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 
 @Composable
 fun ProfileScreen(
-    onBackBtnClick: () -> Unit
+    navController: NavController,
+    viewModel: UserDetailViewModel = hiltViewModel()
 ) {
+    viewModel.getUser(1)
+    val state by viewModel.userDetail.collectAsState()
+    LaunchedEffect(state){
+        if(state!=null){
+            Log.e("name",state!!.firstName)
+        }
+    }
     var showModal by remember {
         mutableStateOf(false)
     }
@@ -46,6 +61,7 @@ fun ProfileScreen(
             .fillMaxSize()
             .padding(15.dp)
     ) {
+        val isLoading = state
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -54,7 +70,7 @@ fun ProfileScreen(
         ) {
             Box(modifier = Modifier.weight(0.5f)) {
                 DefaultBackArrow {
-                    onBackBtnClick()
+                    navController.popBackStack()
                 }
             }
             Box(modifier = Modifier.weight(0.7f)) {
@@ -97,8 +113,10 @@ fun ProfileScreen(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
+        Text(text = "${state?.firstName} ${state?.lastName}", color = Color(0xFFFF7643), fontSize = 30.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(15.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -137,7 +155,10 @@ fun ProfileScreen(
                 .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
-
+//                    navController.navigate(AuthScreen.SignInScreen.route)
+                    Toast
+                        .makeText(ctx, "Chức năng chưa làm", Toast.LENGTH_LONG)
+                        .show()
                 }
                 .padding(5.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -157,6 +178,7 @@ fun ProfileScreen(
             )
         }
     }
+
     if(showModal){
         ModalUpdateProfile(
             onDismiss = { showModal = false},

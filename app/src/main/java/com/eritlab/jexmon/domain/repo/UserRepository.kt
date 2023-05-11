@@ -17,4 +17,16 @@ class UserRepository @Inject constructor(private val userService: UserService){
         val response = userService.otp(userOTPRequestItem)
         return response.toGetUserOTPResponse()
     }
+    suspend fun forgetPassword(userForgetPasswordRequestItem: UserForgetPasswordRequestItem):UserForgetPasswordResponseItem{
+        val response = userService.forgetPassword(userForgetPasswordRequestItem)
+        return response.toGetUserForgetPasswordResponse()
+    }
+    suspend fun resetPassword(userResetPasswordRequestItem: UserResetPasswordRequestItem):UserResetPasswordResponseItem{
+        val response = userService.resetPassword(userResetPasswordRequestItem)
+        return response.toGetUserResetPasswordResponse()
+    }
+    suspend fun getUser(userId:Int):UserDetailItem{
+        val response = userService.getUser(userId)
+        return response.toGetUserDetail()
+    }
 }

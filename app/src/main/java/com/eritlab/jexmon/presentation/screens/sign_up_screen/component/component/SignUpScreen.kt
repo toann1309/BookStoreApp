@@ -312,9 +312,13 @@ fun SignUpScreen(navController: NavController, viewModel:SignUpViewModel = hiltV
             delay(5000)
             if(state!=null){
                 Log.e("Register",state!!.email)
+                loadingState.value=true
                 navController.navigate(AuthScreen.OTPScreen.route)
             }
             loadingState.value = false
+        }
+        LaunchedEffect(loadingState){
+            loadingState.value = !loadingState.value
         }
         if(loadingState.value){
             CircularProgressIndicator()
