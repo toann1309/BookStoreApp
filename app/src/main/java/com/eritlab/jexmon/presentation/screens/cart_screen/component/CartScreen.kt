@@ -38,11 +38,7 @@ import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 @Composable
 fun CartScreen(
     navController: NavController,
-    popBack: () -> Unit,
-
-
-
-    ) {
+) {
 //    val state = viewModel.state.value
     val context = LocalContext.current
     var itemDrag by remember { mutableStateOf(0f) }
@@ -68,7 +64,7 @@ fun CartScreen(
             Box(modifier = Modifier.weight(0.5f)) {
                 IconButton(
                     onClick = {
-                        popBack()
+                        navController.popBackStack()
                     },
                     modifier = Modifier
                         .background(color = Color.White, shape = CircleShape)
@@ -606,7 +602,7 @@ fun CartScreen(
                 Column() {
                     Text(text = "Total")
                     Text(
-                        text = "$266.78",
+                        text = "$${77.99*quantity + 100.25*quantity + 49.99*quantity + 36.55*quantity}",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colors.PrimaryColor
@@ -617,9 +613,11 @@ fun CartScreen(
                     modifier = Modifier
                         .width(150.dp)
                 ) {
-                    CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out"){
-                        navController.navigate(DetailScreen.CheckOut.route)
-                    }
+                    CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out",
+                        onClick = {
+                            navController.navigate(DetailScreen.CheckOut.route)
+                        }
+                    )
                 }
 
             }

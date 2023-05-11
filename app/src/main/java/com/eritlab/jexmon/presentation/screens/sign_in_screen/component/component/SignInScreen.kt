@@ -201,7 +201,7 @@ fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hi
             }
         }
         LaunchedEffect(state){
-            loadingState.value = true
+//            loadingState.value = true
             if(state!=null){
                 Log.e("Sau đây", state!!.status)
                 if(state!!.status == "Mật khẩu sai"){
@@ -222,6 +222,7 @@ fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hi
                 }
                 loadingState.value=true
             }
+            loadingState.value=false
         }
         if(loadingState.value){
             CircularProgressIndicator()

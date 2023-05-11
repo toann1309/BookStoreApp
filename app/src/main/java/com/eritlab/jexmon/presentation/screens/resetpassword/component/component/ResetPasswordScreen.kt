@@ -1,5 +1,7 @@
 package com.eritlab.jexmon.presentation.screens.resetpassword.component
 
+import android.content.Context
+import android.util.Log
 import android.util.Patterns
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -16,6 +19,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
@@ -26,9 +30,17 @@ import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 
 @Composable
-fun ResetPasswordScreen(navController: NavController){
+fun ResetPasswordScreen(
+    navController: NavController,
+    viewModel: ResetPasswordViewModel = hiltViewModel()
+){
+    val ctx = LocalContext.current
+    val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val state by viewModel.resetPasswordResponse.collectAsState()
     var passNew by remember { mutableStateOf(TextFieldValue("")) }
     var otp by remember { mutableStateOf(TextFieldValue("")) }
+    val email = shareReference.getString("emailReset","")
+
     val passwordErrorState = remember {
         mutableStateOf(false)
     }
@@ -144,8 +156,16 @@ fun ResetPasswordScreen(navController: NavController){
             //                passwordErrorState.value = !isNewPassValid
             //                otpErrorState.value = !isOptValid
                 if (isNewPassValid && isOptValid) {
-                    navController.navigate(AuthScreen.SignInScreen.route)
+                    viewModel.resetPassword(email.toString(), passNew.text,otp.text)
+//                    navController.navigate(AuthScreen.SignInScreen.route)
                 }
+            }
+        }
+        LaunchedEffect(state){
+            if(state!=null){
+                Log.e("email Reset Ctx", email.toString())
+                Log.e("status Reset", state!!.status)
+                navController.navigate(AuthScreen.SignInScreen.route)
             }
         }
     }

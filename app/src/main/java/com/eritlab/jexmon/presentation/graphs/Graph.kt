@@ -7,4 +7,5 @@ object Graph {
     const val DETAILS = "details_graph"
     const val  OPTIONS = "options_graph"
     const val FILTERGAME="filter_graph"
+//    const val LOGOUT = "logout_graph"
 }

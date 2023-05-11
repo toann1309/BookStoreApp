@@ -39,7 +39,6 @@ fun HomeScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     boxScrollState: ScrollState = rememberScrollState(),
 ) {
-
     //topBar visibility state
     val topBarVisibilityState = remember {
         mutableStateOf(true)

@@ -55,7 +55,7 @@ fun CustomDialog(
         ),
         ChipsModel(
             name = "publisher",
-            subList = listOf("Nhã Nham", "Tổng Hợp HCM","NXB trẻ"),
+            subList = listOf("Nhã Nam", "First New","Nhà xuất bản trẻ","Nhà xuất bản văn học"),
             trailingIcon = Icons.Default.ArrowDropDown,
             selectedIcon = Icons.Default.Check,
             order = 1,

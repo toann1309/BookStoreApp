@@ -173,6 +173,9 @@ fun OTPScreen(
             }
             loadingState.value = false
         }
+        LaunchedEffect(loadingState){
+            loadingState.value = !loadingState.value
+        }
         if(loadingState.value){
             CircularProgressIndicator()
         }
