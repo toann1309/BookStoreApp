@@ -1,4 +1,4 @@
-package com.eritlab.jexmon.presentation.common.component
+package com.eritlab.jexmon.presentation.screens.checkout_screen.component.component
 
 import android.util.Log
 import androidx.compose.foundation.layout.*

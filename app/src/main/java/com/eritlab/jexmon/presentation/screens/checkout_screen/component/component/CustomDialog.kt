@@ -1,4 +1,4 @@
-package com.eritlab.jexmon.presentation.common.component
+package com.eritlab.jexmon.presentation.screens.checkout_screen.component.component
 
 import android.annotation.SuppressLint
 import android.util.Log

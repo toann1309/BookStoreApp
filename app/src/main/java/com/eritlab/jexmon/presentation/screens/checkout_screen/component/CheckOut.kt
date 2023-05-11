@@ -30,15 +30,19 @@ import androidx.navigation.Navigator
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomTextField
-import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import kotlinx.coroutines.NonDisposableHandle.parent
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 
-fun CheckOut() {
+fun CheckOut(
+    navController: NavController,
+    popBack: () -> Unit,
+) {
     var phoneNumber by remember { mutableStateOf(TextFieldValue("")) }
     var Name by remember { mutableStateOf(TextFieldValue("")) }
     val NameErrorState = remember { mutableStateOf(false) }
@@ -381,7 +385,7 @@ fun CheckOut() {
                     .width(150.dp)
             ) {
                 CustomDefaultBtn(shapeSize = 15f, btnText = "Oder") {
-
+                    navController.navigate(DetailScreen.DetailCheckOut.route)
                 }
             }
             LaunchedEffect(selectedOption) {
