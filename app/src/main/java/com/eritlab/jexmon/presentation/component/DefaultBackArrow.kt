@@ -1,4 +1,4 @@
-package com.eritlab.jexmon.presentation.screens.checkout_screen.component.component
+package com.eritlab.jexmon.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

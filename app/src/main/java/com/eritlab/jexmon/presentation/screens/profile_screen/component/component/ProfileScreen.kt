@@ -31,10 +31,10 @@ import androidx.constraintlayout.compose.HorizontalAnchorable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.eritlab.jexmon.presentation.common.component.DefaultBackArrow
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
-import com.eritlab.jexmon.presentation.common.component.ModalUpdateProfile
+import com.eritlab.jexmon.presentation.component.DefaultBackArrow
+import com.eritlab.jexmon.presentation.component.ModalUpdateProfile
 import com.eritlab.jexmon.presentation.graphs.Graph
 import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
