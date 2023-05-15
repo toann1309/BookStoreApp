@@ -39,6 +39,9 @@ fun HomeScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     boxScrollState: ScrollState = rememberScrollState(),
 ) {
+    val ctx = LocalContext.current
+    val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val id = shareReference.getInt("id",1)
     //topBar visibility state
     val topBarVisibilityState = remember {
         mutableStateOf(true)
@@ -46,7 +49,7 @@ fun HomeScreen(
     val filterBarVisibilityState = remember {
         mutableStateOf(true)
     }
-    val ctx = LocalContext.current
+//    val ctx = LocalContext.current
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {

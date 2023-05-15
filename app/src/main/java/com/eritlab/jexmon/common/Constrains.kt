@@ -10,5 +10,5 @@ object Constrains {
     const val PRICE = "price"
     const val PUBLISHER = "publisher"
     const val FILTER = "filter"
-
+    const val USER_ID = "userId"
 }

@@ -1,6 +1,7 @@
 package com.eritlab.jexmon.presentation.screens.product_detail_screen.component
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.presentation.screens.product_detail_screen.AddCartViewModel
 import com.eritlab.jexmon.presentation.screens.product_detail_screen.BookDetailViewModel
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
@@ -33,10 +35,14 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 @Composable
 fun ProductDetailScreen(
     viewModel: BookDetailViewModel = hiltViewModel(),
+    addCartViewModel:AddCartViewModel = hiltViewModel(),
     popBack: () -> Unit
 ) {
     val state by viewModel.bookDetail.collectAsState()
+    val stateAddCart by addCartViewModel.addCartResponse.collectAsState()
     val context = LocalContext.current
+    val shareReference = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val id = shareReference.getInt("id",0)
     if (state == null) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -256,12 +262,7 @@ fun ProductDetailScreen(
                             .height(60.dp)
                             .clip(RoundedCornerShape(15.dp)),
                         onClick = {
-                            Toast.makeText(
-                                context,
-                                "Successfully added to cart",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
+                              addCartViewModel.addCarts(state!!.id,id,quantity)
                         },
                     ) {
                         Text(text = "Add to Cart", fontSize = 16.sp)
@@ -289,11 +290,16 @@ fun ProductDetailScreen(
                         Text(text = "Buy now", fontSize = 16.sp)
                     }
                 }
-
-
             }
-
-
+            LaunchedEffect(stateAddCart){
+                if(stateAddCart!=null){
+                    Log.e("add cart",stateAddCart!!.message.toString())
+                    Toast.makeText(context,stateAddCart!!.message.toString(),Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(context,"Chờ một chút !!!",Toast.LENGTH_LONG).show()
+                }
+            }
         }
 
     } else {
