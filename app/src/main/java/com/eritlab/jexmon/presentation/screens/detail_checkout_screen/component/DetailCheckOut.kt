@@ -1,6 +1,8 @@
 package com.eritlab.jexmon.presentation.screens.detail_checkout_screen.component
 
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -25,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.domain.model.getCart.Item
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtnGray
 import com.eritlab.jexmon.presentation.common.CustomTextField
@@ -35,6 +39,9 @@ import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 import com.eritlab.jexmon.presentation.ui.theme.SecondaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 //@Preview(showBackground = true)
 
@@ -43,6 +50,22 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 fun DetailsCheckOut (
     navController: NavController,
 ) {
+    val ctx = LocalContext.current
+    val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val name = shareReference.getString("nameCheckout","")
+    val address = shareReference.getString("addressCheckout","")
+    val phone = shareReference.getString("phoneCheckout","")
+    val jsonString = shareReference.getString("arrayCart",null)
+    val gson = Gson()
+    val type : Type = object : TypeToken<ArrayList<Item>>(){}.type
+    val itemCarts:ArrayList<Item> = gson.fromJson(jsonString,type)
+    if(itemCarts==null){
+        Log.e("itemcart","oh no null")
+    }
+    else{
+        Log.e("itemcart 2",itemCarts.toString())
+    }
+    val totalMoney = shareReference.getInt("total",0)
     var information by remember { mutableStateOf(TextFieldValue("")) }
     val infomationErrorState = remember { mutableStateOf(false) }
 
@@ -52,6 +75,7 @@ fun DetailsCheckOut (
             modifier = Modifier
                 .padding(top = 15.dp, start = 15.dp, end = 15.dp)
                 .fillMaxWidth()
+                .fillMaxSize()
                 .constrainAs(topBar) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
@@ -107,8 +131,8 @@ fun DetailsCheckOut (
                 )
 
                 Text (
-                    text = "Nguyễn Minh Toàn (0948349445), " +
-                            "175/113/11 đường số 2, phường Tăng Nhơn Phú B, quận 9, thành phố Hồ CHí Minh",
+                    text = "${name} (${phone}), " +
+                            "${address}",
                     modifier = Modifier.padding(10.dp, 26.dp, 18.dp, 0.dp),
                     fontSize = 16.sp,
                 )
@@ -126,152 +150,46 @@ fun DetailsCheckOut (
                     end.linkTo(parent.end)
                 },
         ){
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            for(item in itemCarts){
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
 
-                Column() {
-                    Text(
-                        text = "Wireless Controller for PS4™",
-                        fontWeight = FontWeight(700),
-                        fontSize = 16.sp,
+                    Column() {
+                        Text(
+                            text = "${item.itemName}",
+                            fontWeight = FontWeight(700),
+                            fontSize = 16.sp,
 
+                            )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                    }
+                    Column() {
+                        Text(
+                            text = "$${item.price}",
+                            color = MaterialTheme.colors.PrimaryColor,
+                            fontSize = 16.sp,
                         )
-                    Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                    Column() {
+                        Text(
+                            text = "  x${item.quantity}",
+                            color = MaterialTheme.colors.TextColor,
+                            fontSize = 16.sp
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                }
-                Column() {
-                    Text(
-                        text = "$79.99",
-                        color = MaterialTheme.colors.PrimaryColor,
-                        fontSize = 16.sp,
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                Column() {
-                    Text(
-                        text = "  x1",
-                        color = MaterialTheme.colors.TextColor,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-
+                    }
                 }
             }
 
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-
-                Column() {
-                    Text(
-                        text = "High Quality Sport Shoes",
-                        fontWeight = FontWeight(700),
-                        fontSize = 16.sp,
-
-                        )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                Column() {
-                    Text(
-                        text = "$100.25",
-                        color = MaterialTheme.colors.PrimaryColor,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                Column() {
-
-                    Text(text = "  x1",
-                        color = MaterialTheme.colors.TextColor,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
-
-
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-
-                Column() {
-                    Text(
-                        text = "Nike Sport White - Man Pant",
-                        fontWeight = FontWeight(700),
-                        fontSize = 16.sp,
-
-                        )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                Column() {
-                    Text(
-                        text = "$49.99",
-                        color = MaterialTheme.colors.PrimaryColor,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                Column() {
-                    Text(
-                        text = "  x1",
-                        color = MaterialTheme.colors.TextColor,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
-
-
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-
-                Column() {
-                    Text(
-                        text = "Gloves XC Omega - Polygon",
-                        fontWeight = FontWeight(700),
-                        fontSize = 16.sp,
-
-                        )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                Column() {
-                    Text(
-                        text = "$36.55",
-                        color = MaterialTheme.colors.PrimaryColor,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                Column() {
-                    Text(
-                        text = "  x1",
-                        color = MaterialTheme.colors.TextColor,
-                        fontSize = 16.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -291,7 +209,7 @@ fun DetailsCheckOut (
                 }
                 Column() {
                     Text(
-                        text = "$36.55",
+                        text = "$${totalMoney}",
                         color = MaterialTheme.colors.PrimaryColor,
                         fontSize = 18.sp
                     )

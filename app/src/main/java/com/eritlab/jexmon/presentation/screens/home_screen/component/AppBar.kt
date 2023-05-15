@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.dashboard_screen.component
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -25,11 +26,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.eritlab.jexmon.R
 import com.eritlab.jexmon.common.Constrains
 import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
 import com.eritlab.jexmon.presentation.graphs.option_graph.OptionScreen
+import com.eritlab.jexmon.presentation.screens.cart_screen.component.GetCartViewModel
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryLightColor
 
@@ -39,8 +42,14 @@ fun AppBar(
     isVisible: Boolean,
     searchCharSequence: (String) -> Unit,
     onCartIconClick: () -> Unit,
-    onSearchClick:(String) -> Unit
+    onSearchClick:(String) -> Unit,
+    viewModel: GetCartViewModel = hiltViewModel()
 ) {
+    val ctx = LocalContext.current
+    val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val id = shareReference.getInt("id",1)
+    viewModel.getCart(id)
+    val state by viewModel.getCartResponse.collectAsState()
     var typedText by remember {
         mutableStateOf("")
     }
@@ -118,7 +127,9 @@ fun AppBar(
                     },
                     contentAlignment = Alignment.Center,
                 ){
-                    Text(text = "4", fontSize = 11.sp, color = Color.White)
+                    if(state!=null){
+                        Text(text = "${state?.itemList!!.size}", fontSize = 11.sp, color = Color.White)
+                    }
                 }
             }
 

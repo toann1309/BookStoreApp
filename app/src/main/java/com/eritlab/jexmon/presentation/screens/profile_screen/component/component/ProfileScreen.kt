@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.profile_screen.component
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -45,7 +46,10 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: UserDetailViewModel = hiltViewModel()
 ) {
-    viewModel.getUser(1)
+    val ctx = LocalContext.current
+    val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val id = shareReference.getInt("id",1)
+    viewModel.getUser(id)
     val state by viewModel.userDetail.collectAsState()
     LaunchedEffect(state){
         if(state!=null){
@@ -55,7 +59,7 @@ fun ProfileScreen(
     var showModal by remember {
         mutableStateOf(false)
     }
-    val ctx = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()

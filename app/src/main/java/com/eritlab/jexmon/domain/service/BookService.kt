@@ -1,7 +1,13 @@
 package com.eritlab.jexmon.domain.service
 
+import com.eritlab.jexmon.domain.item.AddCartRequestItem
+import com.eritlab.jexmon.domain.item.CheckoutRequestItem
+import com.eritlab.jexmon.domain.model.addcart.AddCartResponseModel
 import com.eritlab.jexmon.domain.model.bookDetailModel.BookDetailModel
 import com.eritlab.jexmon.domain.model.bookModel.BookModel
+import com.eritlab.jexmon.domain.model.checkout.CheckoutRequestModel
+import com.eritlab.jexmon.domain.model.checkout.CheckoutResponseModel
+import com.eritlab.jexmon.domain.model.getCart.GetCartModel
 import com.eritlab.jexmon.domain.repository.BookStoreAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,5 +40,14 @@ class BookService @Inject constructor(private val bookStoreAPI: BookStoreAPI){
             val getPopularBook = bookStoreAPI.getPopularBook();
             getPopularBook.body()?: emptyList()
         }
+    }
+    suspend fun addCart(addCartRequestItem: AddCartRequestItem):AddCartResponseModel{
+        return bookStoreAPI.addCart(addCartRequestItem)
+    }
+    suspend fun getCart(userId:Int):GetCartModel{
+        return bookStoreAPI.getCart(userId)
+    }
+    suspend fun checkout(checkoutRequestItem: CheckoutRequestItem):CheckoutResponseModel{
+        return bookStoreAPI.checkout(checkoutRequestItem)
     }
 }

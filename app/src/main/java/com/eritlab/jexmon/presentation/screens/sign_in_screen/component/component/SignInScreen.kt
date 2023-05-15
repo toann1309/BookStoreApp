@@ -2,6 +2,7 @@ package com.eritlab.jexmon.presentation.screens.sign_in_screen.component
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
@@ -59,6 +60,8 @@ fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hi
     val loadingState = remember { mutableStateOf(false) }
     val errorState = remember { mutableStateOf("") }
     val ctx = LocalContext.current
+    val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val editor = shareReference.edit()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -218,6 +221,10 @@ fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hi
                     Toast.makeText(ctx,errorState.value,Toast.LENGTH_SHORT).show()
                 }
                 if(state!!.status == "Đăng nhập thành công"){
+
+                    editor.putInt("id",state!!.id)
+                    editor.apply()
+                    Toast.makeText(ctx,state!!.status,Toast.LENGTH_LONG).show()
                     navController.navigate(AuthScreen.SignInSuccess.route)
                 }
                 loadingState.value=true
