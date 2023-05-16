@@ -23,12 +23,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.domain.model.buynow.BuyNowRequestModel
+import com.eritlab.jexmon.domain.model.buynow.ItemDetail
+import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.screens.product_detail_screen.AddCartViewModel
 import com.eritlab.jexmon.presentation.screens.product_detail_screen.BookDetailViewModel
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
+import com.google.gson.Gson
 
 @JvmOverloads
 @SuppressLint("StateFlowValueCalledInComposition", "SuspiciousIndentation")
@@ -36,12 +43,15 @@ import com.eritlab.jexmon.presentation.ui.theme.TextColor
 fun ProductDetailScreen(
     viewModel: BookDetailViewModel = hiltViewModel(),
     addCartViewModel:AddCartViewModel = hiltViewModel(),
-    popBack: () -> Unit
+    navController: NavHostController
 ) {
+
     val state by viewModel.bookDetail.collectAsState()
+//    val navController = rememberNavController()
     val stateAddCart by addCartViewModel.addCartResponse.collectAsState()
     val context = LocalContext.current
     val shareReference = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+    val editor = shareReference.edit()
     val id = shareReference.getInt("id",0)
     if (state == null) {
         Column(
@@ -58,6 +68,7 @@ fun ProductDetailScreen(
         }
     }
     if (state != null) {
+
 //        var colorSelected by remember { mutableStateOf(product.colors[product.colors.size - 1]) }
         var image by remember { mutableStateOf(state!!.imagesProduct[0]) }
         var quantity by remember { mutableStateOf(1) }
@@ -80,7 +91,7 @@ fun ProductDetailScreen(
             ) {
                 IconButton(
                     onClick = {
-                        popBack()
+                        navController.popBackStack()
                     },
                     modifier = Modifier
                         .background(color = Color.White, shape = CircleShape)
@@ -279,12 +290,19 @@ fun ProductDetailScreen(
                             .height(60.dp)
                             .clip(RoundedCornerShape(15.dp)),
                         onClick = {
+
+                            editor.putString("buynowItem",state!!.productName)
+                            editor.putInt("buynowQuantity",quantity)
+                            editor.putInt("buynowPrice", state!!.price.toInt())
+                            editor.putString("buynowImage",state!!.imagesProduct[0])
+                            editor.putInt("buynowId",state!!.id)
+                            editor.apply()
                             Toast.makeText(
                                 context,
                                 "Go to checkout",
                                 Toast.LENGTH_SHORT
                             ).show()
-
+                            navController.navigate(DetailScreen.CheckoutBuyNow.route)
                         },
                     ) {
                         Text(text = "Buy now", fontSize = 16.sp)
@@ -295,9 +313,6 @@ fun ProductDetailScreen(
                 if(stateAddCart!=null){
                     Log.e("add cart",stateAddCart!!.message.toString())
                     Toast.makeText(context,stateAddCart!!.message.toString(),Toast.LENGTH_LONG).show()
-                }
-                else{
-                    Toast.makeText(context,"Chờ một chút !!!",Toast.LENGTH_LONG).show()
                 }
             }
         }

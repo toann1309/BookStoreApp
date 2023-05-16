@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.domain.model.getCart.Item
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
@@ -111,11 +112,20 @@ fun CartScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        text = "${state?.itemList?.size} items",
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.TextColor,
-                    )
+                    if(state!=null){
+                        Text(
+                            text = "${state?.itemList?.size} items",
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.TextColor,
+                        )
+                    }
+                    else{
+                        Text(
+                            text = "0 items",
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.TextColor,
+                        )
+                    }
 
                 }
             }
@@ -132,7 +142,10 @@ fun CartScreen(
                 }
                 .wrapContentHeight()
         ) {
-            if(state==null){
+            if(state?.itemList==null){
+
+            }
+            else if(state==null){
                 CircularProgressIndicator(
                     modifier = Modifier
                         .fillMaxSize()
@@ -310,11 +323,7 @@ fun CartScreen(
                 ) {
                     CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out",
                         onClick = {
-//                            for (item in state?.itemList!!){
-//                                sum = (sum + item.quantity*item.price).toInt()
-//                                Log.e("${item.itemName}","${item.quantity}")
 //
-//                            }
                             if(state!!.itemList.size==0){
                                 Toast.makeText(ctx,"Không có sản phẩm",Toast.LENGTH_SHORT).show()
                             }

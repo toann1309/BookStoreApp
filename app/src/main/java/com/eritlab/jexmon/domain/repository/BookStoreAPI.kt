@@ -1,10 +1,12 @@
 package com.eritlab.jexmon.domain.repository
 
 import com.eritlab.jexmon.domain.item.AddCartRequestItem
+import com.eritlab.jexmon.domain.item.BuyNowRequestItem
 import com.eritlab.jexmon.domain.item.CheckoutRequestItem
 import com.eritlab.jexmon.domain.model.addcart.AddCartResponseModel
 import com.eritlab.jexmon.domain.model.bookDetailModel.BookDetailModel
 import com.eritlab.jexmon.domain.model.bookModel.BookModel
+import com.eritlab.jexmon.domain.model.buynow.BuyNowResponseModel
 import com.eritlab.jexmon.domain.model.checkout.CheckoutResponseModel
 import com.eritlab.jexmon.domain.model.getCart.GetCartModel
 import retrofit2.Response
@@ -31,4 +33,6 @@ interface BookStoreAPI {
     suspend fun getCart(@Query("userId") userId:Int):GetCartModel
     @POST("cart/checkout")
     suspend fun checkout(@Body checkoutRequestItem: CheckoutRequestItem):CheckoutResponseModel
+    @POST("cart/buy-now")
+    suspend fun buyNow(@Body buyNowRequestItem: BuyNowRequestItem):BuyNowResponseModel
 }

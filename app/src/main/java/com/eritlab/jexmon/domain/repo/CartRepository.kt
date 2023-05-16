@@ -17,4 +17,8 @@ class CartRepository @Inject constructor(private val bookService: BookService) {
         val response = bookService.checkout(checkoutRequestItem)
         return response.toGetCheckoutResponse()
     }
+    suspend fun buyNow(buyNowRequestItem: BuyNowRequestItem):BuyNowResponseItem{
+        val response = bookService.buyNow(buyNowRequestItem)
+        return response.toGetBuyNowResponse()
+    }
 }

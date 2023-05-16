@@ -1,10 +1,12 @@
 package com.eritlab.jexmon.domain.service
 
 import com.eritlab.jexmon.domain.item.AddCartRequestItem
+import com.eritlab.jexmon.domain.item.BuyNowRequestItem
 import com.eritlab.jexmon.domain.item.CheckoutRequestItem
 import com.eritlab.jexmon.domain.model.addcart.AddCartResponseModel
 import com.eritlab.jexmon.domain.model.bookDetailModel.BookDetailModel
 import com.eritlab.jexmon.domain.model.bookModel.BookModel
+import com.eritlab.jexmon.domain.model.buynow.BuyNowResponseModel
 import com.eritlab.jexmon.domain.model.checkout.CheckoutRequestModel
 import com.eritlab.jexmon.domain.model.checkout.CheckoutResponseModel
 import com.eritlab.jexmon.domain.model.getCart.GetCartModel
@@ -49,5 +51,8 @@ class BookService @Inject constructor(private val bookStoreAPI: BookStoreAPI){
     }
     suspend fun checkout(checkoutRequestItem: CheckoutRequestItem):CheckoutResponseModel{
         return bookStoreAPI.checkout(checkoutRequestItem)
+    }
+    suspend fun buyNow(buyNowRequestItem: BuyNowRequestItem):BuyNowResponseModel{
+        return bookStoreAPI.buyNow(buyNowRequestItem)
     }
 }

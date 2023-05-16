@@ -102,7 +102,15 @@ fun NavigationBar(
             bottomNavVisibility = false
             isVisible(false, false)
         }
+        DetailScreen.CheckoutBuyNow.route ->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
         DetailScreen.DetailCheckOut.route->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
+        DetailScreen.DetailCheckoutBuyNow.route->{
             bottomNavVisibility = false
             isVisible(false, false)
         }
@@ -111,6 +119,4 @@ fun NavigationBar(
             isVisible(false,false)
         }
     }
-
-
 }

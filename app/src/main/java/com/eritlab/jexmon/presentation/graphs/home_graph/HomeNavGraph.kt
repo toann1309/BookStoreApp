@@ -39,5 +39,6 @@ fun HomeNavGraph(navHostController: NavHostController) {
         detailNavGraph(navController = navHostController)
         optionScreen(navController = navHostController)
         filterScreen(navController = navHostController)
+
     }
 }

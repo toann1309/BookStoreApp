@@ -1,5 +1,6 @@
 package com.eritlab.jexmon.presentation.screens.dashboard_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eritlab.jexmon.domain.item.BookItem
@@ -24,7 +25,9 @@ class PopularBookViewModel @Inject constructor(private val getPopularBookUseCase
                 val popularBook = getPopularBookUseCase()
                 _popularBooks.value = popularBook
             }
-            catch (_:Exception){}
+            catch (e:Exception){
+                Log.e("error1",e.message.toString())
+            }
         }
     }
 }

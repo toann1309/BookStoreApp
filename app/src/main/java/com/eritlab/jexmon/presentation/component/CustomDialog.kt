@@ -139,7 +139,7 @@ fun CustomDialog(
                         Text(text = "Cancel")
                     }
                     Button(onClick = {
-                        onPositiveButtonClicked
+                            onPositiveButtonClicked()
                             if(array[0] != "" && array[1] != ""){
                                 navController.navigate(FilterGameScreen.FilterScreen.route + "/${array[0]}/${array[1]}")
                             }else{

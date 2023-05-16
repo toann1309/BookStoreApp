@@ -3,6 +3,7 @@ package com.eritlab.jexmon.presentation.screens.sign_up_screen.component
 import android.content.Context
 import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -313,6 +314,7 @@ fun SignUpScreen(navController: NavController, viewModel:SignUpViewModel = hiltV
             if(state!=null){
                 Log.e("Register",state!!.email)
                 loadingState.value=true
+                Toast.makeText(ctx,"Đã gởi OTP qua email cho bạn", Toast.LENGTH_LONG).show()
                 navController.navigate(AuthScreen.OTPScreen.route)
             }
             loadingState.value = false
@@ -320,9 +322,7 @@ fun SignUpScreen(navController: NavController, viewModel:SignUpViewModel = hiltV
         LaunchedEffect(loadingState){
             loadingState.value = !loadingState.value
         }
-        if(loadingState.value){
-            CircularProgressIndicator()
-        }
+
 //        if(state!=null){
 //
 //

@@ -8,6 +8,8 @@ import com.eritlab.jexmon.common.Constrains
 import com.eritlab.jexmon.presentation.graphs.Graph
 import com.eritlab.jexmon.presentation.screens.cart_screen.component.CartScreen
 import com.eritlab.jexmon.presentation.screens.checkout_screen.component.CheckOut
+import com.eritlab.jexmon.presentation.screens.checkout_screen.component.component.CheckoutBuyNow
+import com.eritlab.jexmon.presentation.screens.detail_checkout_screen.component.DetailCheckoutBuyNow
 import com.eritlab.jexmon.presentation.screens.detail_checkout_screen.component.DetailsCheckOut
 import com.eritlab.jexmon.presentation.screens.notification_screen.component.NotificationScreen
 import com.eritlab.jexmon.presentation.screens.product_detail_screen.component.ProductDetailScreen
@@ -26,15 +28,21 @@ fun NavGraphBuilder.detailNavGraph(navController: NavHostController) {
             NotificationScreen()
         }
         composable(DetailScreen.ProductDetailScreen.route + "/{productId}") {
-            ProductDetailScreen() {
-                navController.popBackStack()
-            }
+            ProductDetailScreen(navController = navController)
         }
         composable(DetailScreen.CheckOut.route){
             CheckOut(navController = navController)
         }
+        composable(DetailScreen.CheckoutBuyNow.route){
+            CheckoutBuyNow(navController = navController)
+        }
         composable(DetailScreen.DetailCheckOut.route){
             DetailsCheckOut(navController = navController)
         }
+        composable(DetailScreen.DetailCheckoutBuyNow.route){
+            DetailCheckoutBuyNow(navController = navController)
+        }
     }
 }
+
+

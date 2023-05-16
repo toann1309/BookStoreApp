@@ -100,7 +100,7 @@ fun SplashScreen(navController: NavController) {
                         }
                         1 -> {
                             Text(
-                                text = "We help people connect with store\naround Bangladesh",
+                                text = "The place that people can see\nand buy a book",
                                 color = MaterialTheme.colors.TextColor,
                                 fontSize = 18.sp,
                                 textAlign = TextAlign.Center
