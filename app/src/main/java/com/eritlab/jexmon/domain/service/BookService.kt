@@ -9,6 +9,7 @@ import com.eritlab.jexmon.domain.model.bookModel.BookModel
 import com.eritlab.jexmon.domain.model.buynow.BuyNowResponseModel
 import com.eritlab.jexmon.domain.model.checkout.CheckoutRequestModel
 import com.eritlab.jexmon.domain.model.checkout.CheckoutResponseModel
+import com.eritlab.jexmon.domain.model.deleteItemCartModel.deleteItemCardModel
 import com.eritlab.jexmon.domain.model.getCart.GetCartModel
 import com.eritlab.jexmon.domain.repository.BookStoreAPI
 import kotlinx.coroutines.Dispatchers
@@ -54,5 +55,8 @@ class BookService @Inject constructor(private val bookStoreAPI: BookStoreAPI){
     }
     suspend fun buyNow(buyNowRequestItem: BuyNowRequestItem):BuyNowResponseModel{
         return bookStoreAPI.buyNow(buyNowRequestItem)
+    }
+    suspend fun deleteCart(cartId:Int):deleteItemCardModel{
+        return bookStoreAPI.deleteCart(cartId)
     }
 }

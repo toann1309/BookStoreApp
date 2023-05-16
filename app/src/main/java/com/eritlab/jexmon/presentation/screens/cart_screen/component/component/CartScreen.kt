@@ -43,7 +43,8 @@ import com.google.gson.Gson
 @Composable
 fun CartScreen(
     navController: NavController,
-    viewModel: GetCartViewModel= hiltViewModel()
+    viewModel: GetCartViewModel= hiltViewModel(),
+    deleteViewModel: DeleteCartViewModel = hiltViewModel()
 ) {
 //    val state = viewModel.state.value
     val ctx = LocalContext.current
@@ -51,8 +52,12 @@ fun CartScreen(
     val editor = shareReference.edit()
     val id = shareReference.getInt("id",1)
     var sum by remember { mutableStateOf(0) }
+    var idDelete by remember {
+        mutableStateOf(0)
+    }
     viewModel.getCart(id)
     val state by viewModel.getCartResponse.collectAsState()
+    val deleteState by deleteViewModel.deleteCartResponse.collectAsState()
     LaunchedEffect(state){
         if(state!=null){
             Log.e("name", state!!.userId.toString())
@@ -61,6 +66,18 @@ fun CartScreen(
 //                Log.e("${item.itemName}","${item.quantity}")
 //                Log.e("sum", sum.toString())
             }
+        }
+    }
+    LaunchedEffect(deleteState){
+        if(deleteState!=null){
+            Log.e("message Delete",deleteState!!.message.toString())
+            for (item in state?.itemList!!) {
+                if(item.id == idDelete){
+                    sum = (sum - item.price*item.quantity).toInt()
+                }
+                break
+            }
+            Toast.makeText(ctx,deleteState!!.message,Toast.LENGTH_SHORT).show()
         }
     }
     var itemDrag by remember { mutableStateOf(0f) }
@@ -254,7 +271,9 @@ fun CartScreen(
 
                                     IconButton(
                                         onClick = {
-
+                                            idDelete = item.id
+                                            Toast.makeText(ctx,"Đang xóa ${item.itemName}", Toast.LENGTH_SHORT).show()
+                                            deleteViewModel.deleteCart(item.id)
                                         },
                                         modifier = Modifier
                                             .padding(40.dp, 0.dp, 0.dp, 0.dp)

@@ -8,9 +8,11 @@ import com.eritlab.jexmon.domain.model.bookDetailModel.BookDetailModel
 import com.eritlab.jexmon.domain.model.bookModel.BookModel
 import com.eritlab.jexmon.domain.model.buynow.BuyNowResponseModel
 import com.eritlab.jexmon.domain.model.checkout.CheckoutResponseModel
+import com.eritlab.jexmon.domain.model.deleteItemCartModel.deleteItemCardModel
 import com.eritlab.jexmon.domain.model.getCart.GetCartModel
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -29,10 +31,12 @@ interface BookStoreAPI {
     suspend fun getPopularBook():Response<List<BookModel>>
     @POST("cart")
     suspend fun addCart(@Body addCart:AddCartRequestItem):AddCartResponseModel
-    @GET("cart/items")
-    suspend fun getCart(@Query("userId") userId:Int):GetCartModel
+    @GET("cart/items/{userId}")
+    suspend fun getCart(@Path("userId") userId:Int):GetCartModel
     @POST("cart/checkout")
     suspend fun checkout(@Body checkoutRequestItem: CheckoutRequestItem):CheckoutResponseModel
     @POST("cart/buy-now")
     suspend fun buyNow(@Body buyNowRequestItem: BuyNowRequestItem):BuyNowResponseModel
+    @DELETE("cart/{cartId}")
+    suspend fun deleteCart(@Path("cartId") cartId:Int):deleteItemCardModel
 }
