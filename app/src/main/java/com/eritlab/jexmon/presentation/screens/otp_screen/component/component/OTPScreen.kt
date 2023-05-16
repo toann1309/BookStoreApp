@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.CountDownTimer
 import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
@@ -169,15 +170,10 @@ fun OTPScreen(
                 Log.e("OTP Code", "${otp1.text}${otp2.text}${otp3.text}${otp4.text}${otp5.text}")
                 Log.e("email", email.toString())
 //                Log.e("OTP Code sau log", state!!.otpCode)
+                Toast.makeText(ctx,"Đăng ký tài khoản thành công", Toast.LENGTH_LONG).show()
                 navController.navigate(AuthScreen.SignInScreen.route)
             }
             loadingState.value = false
-        }
-        LaunchedEffect(loadingState){
-            loadingState.value = !loadingState.value
-        }
-        if(loadingState.value){
-            CircularProgressIndicator()
         }
     }
 }

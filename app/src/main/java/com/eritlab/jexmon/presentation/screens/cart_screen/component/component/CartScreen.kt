@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.eritlab.jexmon.presentation.ui.theme.TextColor
 import com.eritlab.jexmon.R
+import com.eritlab.jexmon.domain.model.getCart.Item
 import com.eritlab.jexmon.presentation.common.CustomDefaultBtn
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.ui.theme.PrimaryColor
@@ -42,7 +43,8 @@ import com.google.gson.Gson
 @Composable
 fun CartScreen(
     navController: NavController,
-    viewModel: GetCartViewModel= hiltViewModel()
+    viewModel: GetCartViewModel= hiltViewModel(),
+    deleteViewModel: DeleteCartViewModel = hiltViewModel()
 ) {
 //    val state = viewModel.state.value
     val ctx = LocalContext.current
@@ -50,8 +52,12 @@ fun CartScreen(
     val editor = shareReference.edit()
     val id = shareReference.getInt("id",1)
     var sum by remember { mutableStateOf(0) }
+    var idDelete by remember {
+        mutableStateOf(0)
+    }
     viewModel.getCart(id)
     val state by viewModel.getCartResponse.collectAsState()
+    val deleteState by deleteViewModel.deleteCartResponse.collectAsState()
     LaunchedEffect(state){
         if(state!=null){
             Log.e("name", state!!.userId.toString())
@@ -60,6 +66,18 @@ fun CartScreen(
 //                Log.e("${item.itemName}","${item.quantity}")
 //                Log.e("sum", sum.toString())
             }
+        }
+    }
+    LaunchedEffect(deleteState){
+        if(deleteState!=null){
+            Log.e("message Delete",deleteState!!.message.toString())
+            for (item in state?.itemList!!) {
+                if(item.id == idDelete){
+                    sum = (sum - item.price*item.quantity).toInt()
+                }
+                break
+            }
+            Toast.makeText(ctx,deleteState!!.message,Toast.LENGTH_SHORT).show()
         }
     }
     var itemDrag by remember { mutableStateOf(0f) }
@@ -111,11 +129,20 @@ fun CartScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        text = "${state?.itemList?.size} items",
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.TextColor,
-                    )
+                    if(state!=null){
+                        Text(
+                            text = "${state?.itemList?.size} items",
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.TextColor,
+                        )
+                    }
+                    else{
+                        Text(
+                            text = "0 items",
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.TextColor,
+                        )
+                    }
 
                 }
             }
@@ -132,7 +159,10 @@ fun CartScreen(
                 }
                 .wrapContentHeight()
         ) {
-            if(state==null){
+            if(state?.itemList==null){
+
+            }
+            else if(state==null){
                 CircularProgressIndicator(
                     modifier = Modifier
                         .fillMaxSize()
@@ -241,7 +271,9 @@ fun CartScreen(
 
                                     IconButton(
                                         onClick = {
-
+                                            idDelete = item.id
+                                            Toast.makeText(ctx,"Đang xóa ${item.itemName}", Toast.LENGTH_SHORT).show()
+                                            deleteViewModel.deleteCart(item.id)
                                         },
                                         modifier = Modifier
                                             .padding(40.dp, 0.dp, 0.dp, 0.dp)
@@ -310,11 +342,7 @@ fun CartScreen(
                 ) {
                     CustomDefaultBtn(shapeSize = 15f, btnText = "Check Out",
                         onClick = {
-//                            for (item in state?.itemList!!){
-//                                sum = (sum + item.quantity*item.price).toInt()
-//                                Log.e("${item.itemName}","${item.quantity}")
 //
-//                            }
                             if(state!!.itemList.size==0){
                                 Toast.makeText(ctx,"Không có sản phẩm",Toast.LENGTH_SHORT).show()
                             }

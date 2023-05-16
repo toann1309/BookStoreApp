@@ -3,6 +3,7 @@ package com.eritlab.jexmon.presentation.screens.resetpassword.component
 import android.content.Context
 import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -165,6 +166,7 @@ fun ResetPasswordScreen(
             if(state!=null){
                 Log.e("email Reset Ctx", email.toString())
                 Log.e("status Reset", state!!.status)
+                Toast.makeText(ctx,"Bạn đã thay đổi mật khẩu thành công",Toast.LENGTH_LONG).show()
                 navController.navigate(AuthScreen.SignInScreen.route)
             }
         }

@@ -130,6 +130,9 @@ fun AppBar(
                     if(state!=null){
                         Text(text = "${state?.itemList!!.size}", fontSize = 11.sp, color = Color.White)
                     }
+                    else{
+                        Text(text = "0", fontSize = 11.sp, color = Color.White)
+                    }
                 }
             }
 

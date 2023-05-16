@@ -93,7 +93,7 @@ fun LoginScreen(navController: NavController, viewModel: UserLoginViewModel = hi
         Spacer(modifier = Modifier.height(50.dp))
         Text(text = "Welcome Back", fontSize = 26.sp, fontWeight = FontWeight.Bold)
         Text(
-            text = "Sign in with your email or password\nor continue with social media.",
+            text = "Sign in with your email or password.",
             color = MaterialTheme.colors.TextColor,
             textAlign = TextAlign.Center
         )

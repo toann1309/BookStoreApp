@@ -55,7 +55,6 @@ fun FilterButton(
             onDismiss = { showDialogs=false },
             onPositiveButtonClicked = {
                 showDialogs=false
-                Toast.makeText(ctx,"Positive button clicked", Toast.LENGTH_LONG).show();
             },
             onNegativeButtonClicked = {
                 showDialogs=false
