@@ -47,6 +47,7 @@ fun CartScreen(
     deleteViewModel: DeleteCartViewModel = hiltViewModel()
 ) {
 //    val state = viewModel.state.value
+    var deleteKey by remember { mutableStateOf(0) }
     val ctx = LocalContext.current
     val shareReference = ctx.getSharedPreferences("data", Context.MODE_PRIVATE)
     val editor = shareReference.edit()
@@ -62,21 +63,18 @@ fun CartScreen(
         if(state!=null){
             Log.e("name", state!!.userId.toString())
             for (item in state?.itemList!!){
+
                 sum = (sum + item.quantity*item.price).toInt()
+
 //                Log.e("${item.itemName}","${item.quantity}")
 //                Log.e("sum", sum.toString())
             }
         }
     }
-    LaunchedEffect(deleteState){
+    LaunchedEffect(deleteState,deleteKey){
+        Log.e("has",deleteState.toString())
         if(deleteState!=null){
             Log.e("message Delete",deleteState!!.message.toString())
-            for (item in state?.itemList!!) {
-                if(item.id == idDelete){
-                    sum = (sum - item.price*item.quantity).toInt()
-                }
-                break
-            }
             Toast.makeText(ctx,deleteState!!.message,Toast.LENGTH_SHORT).show()
         }
     }
@@ -271,8 +269,10 @@ fun CartScreen(
 
                                     IconButton(
                                         onClick = {
+                                            deleteKey++
+                                            sum = 0
                                             idDelete = item.id
-                                            Toast.makeText(ctx,"Đang xóa ${item.itemName}", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(ctx,"Đang xóa ${item.id}", Toast.LENGTH_SHORT).show()
                                             deleteViewModel.deleteCart(item.id)
                                         },
                                         modifier = Modifier
