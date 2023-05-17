@@ -159,7 +159,7 @@ fun ProfileScreen(
                 .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
-//                    navController.navigate(AuthScreen.SignInScreen.route)
+//                    navController.navigate(AuthScreen.OnBoardingScreen.route)
                     Toast
                         .makeText(ctx, "Chức năng chưa làm", Toast.LENGTH_LONG)
                         .show()
