@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -48,7 +50,7 @@ fun DetailCheckoutBuyNow(
     var information by remember { mutableStateOf(TextFieldValue("")) }
     val infomationErrorState = remember { mutableStateOf(false) }
 
-    ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
+    ConstraintLayout(modifier = Modifier.fillMaxSize(1f).verticalScroll(rememberScrollState())) {
         val (topBar, inFo, product, btn) = createRefs()
         Row(
             modifier = Modifier

@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -78,7 +76,8 @@ fun ProductDetailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color(0x8DB3B0B0)),
+                .background(color = Color(0x8DB3B0B0))
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
 
             ) {
@@ -318,6 +317,6 @@ fun ProductDetailScreen(
         }
 
     } else {
-        Log.e("Tag", "Null rồi cái lol má")
+        Log.e("Tag", "hihihi")
     }
 }

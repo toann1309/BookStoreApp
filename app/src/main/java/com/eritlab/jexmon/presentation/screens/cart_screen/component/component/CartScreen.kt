@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -86,7 +84,7 @@ fun CartScreen(
 //    var products by remember { mutableStateOf(listOf<>())}
 
 
-    ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
+    ConstraintLayout(modifier = Modifier.fillMaxSize(1f).verticalScroll(rememberScrollState())) {
         val (topBar, product, checkout) = createRefs()
 
         Row(
@@ -155,6 +153,7 @@ fun CartScreen(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
+
                 .wrapContentHeight()
         ) {
             if(state?.itemList==null){
@@ -272,7 +271,7 @@ fun CartScreen(
                                             deleteKey++
                                             sum = 0
                                             idDelete = item.id
-                                            Toast.makeText(ctx,"Đang xóa ${item.id}", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(ctx,"Đang xóa ${item.itemName}", Toast.LENGTH_SHORT).show()
                                             deleteViewModel.deleteCart(item.id)
                                         },
                                         modifier = Modifier

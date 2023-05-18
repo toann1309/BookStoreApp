@@ -2,10 +2,12 @@ package com.eritlab.jexmon.presentation.graphs.home_graph
 
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.eritlab.jexmon.presentation.graphs.Graph
+import com.eritlab.jexmon.presentation.graphs.authNavGraph
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.graphs.detail_graph.detailNavGraph
 import com.eritlab.jexmon.presentation.graphs.filter_graph.filterScreen
@@ -17,6 +19,7 @@ import com.eritlab.jexmon.presentation.screens.profile_screen.component.ProfileS
 
 @Composable
 fun HomeNavGraph(navHostController: NavHostController) {
+    val ctx = LocalContext.current
     NavHost(
         navController = navHostController,
         route = Graph.HOME,
@@ -39,6 +42,6 @@ fun HomeNavGraph(navHostController: NavHostController) {
         detailNavGraph(navController = navHostController)
         optionScreen(navController = navHostController)
         filterScreen(navController = navHostController)
-
+        authNavGraph(navController = navHostController,ctx)
     }
 }

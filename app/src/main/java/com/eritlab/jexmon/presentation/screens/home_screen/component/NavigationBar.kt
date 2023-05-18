@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.eritlab.jexmon.common.Constrains
+import com.eritlab.jexmon.presentation.graphs.auth_graph.AuthScreen
 import com.eritlab.jexmon.presentation.graphs.detail_graph.DetailScreen
 import com.eritlab.jexmon.presentation.graphs.filter_graph.FilterGameScreen
 import com.eritlab.jexmon.presentation.graphs.home_graph.ShopHomeScreen
@@ -111,6 +112,30 @@ fun NavigationBar(
             isVisible(false, false)
         }
         DetailScreen.DetailCheckoutBuyNow.route->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
+        AuthScreen.SignInScreen.route->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
+        AuthScreen.ResetPasswordScreen.route->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
+        AuthScreen.OTPScreen.route->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
+        AuthScreen.SignUpScreen.route->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
+        AuthScreen.ForgetPasswordScreen.route->{
+            bottomNavVisibility = false
+            isVisible(false, false)
+        }
+        AuthScreen.SignInSuccess.route->{
             bottomNavVisibility = false
             isVisible(false, false)
         }

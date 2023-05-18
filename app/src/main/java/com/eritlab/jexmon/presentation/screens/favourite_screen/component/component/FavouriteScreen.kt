@@ -37,7 +37,8 @@ fun FavouriteScreen(
     Spacer(modifier = Modifier.height(15.dp))
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(start = 15.dp, end = 15.dp, bottom = 10.dp),
+        .padding(start = 15.dp, end = 15.dp, bottom = 10.dp)
+        .verticalScroll(rememberScrollState()),
 //        .wrapContentSize(unbounded = true),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {

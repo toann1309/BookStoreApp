@@ -6,7 +6,9 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -75,7 +77,9 @@ fun CheckOut(
 
     var itemDrag by remember { mutableStateOf(0f) }
 
-    ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
+    ConstraintLayout(modifier = Modifier
+        .fillMaxSize(1f)
+        .verticalScroll(rememberScrollState())) {
         val (topBar, input, product, method, total) = createRefs()
         Row(
             modifier = Modifier

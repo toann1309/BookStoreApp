@@ -153,7 +153,7 @@ fun CustomDialog(
                         ) {
                             Text(text = "OK")
                             if(array[0]==""){
-                                Log.e("Array", "rỗng mẹ rồi")
+                                Log.e("Array", "rỗng rồi")
                             }
                             else{
                                 Log.e("Array", array[0])

@@ -8,6 +8,8 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -72,7 +74,8 @@ fun OTPScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(30.dp),
+            .padding(30.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
@@ -100,14 +103,14 @@ fun OTPScreen(
         Text(text = "OTP Verification", fontSize = 26.sp, fontWeight = FontWeight.Bold)
         Text(
             text = buildAnnotatedString {
-                append("We sent your code to your email\nThis code is expired in ")
+                append("We sent your code to your email\n")
                 withStyle(
                     style = SpanStyle(
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colors.PrimaryColor,
                     )
                 ) {
-                    append("120s")
+                    append("")
                 }
             },
             color = MaterialTheme.colors.TextColor,

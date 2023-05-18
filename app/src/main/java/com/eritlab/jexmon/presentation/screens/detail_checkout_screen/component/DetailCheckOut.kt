@@ -3,9 +3,7 @@ package com.eritlab.jexmon.presentation.screens.detail_checkout_screen.component
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -69,7 +67,7 @@ fun DetailsCheckOut (
     var information by remember { mutableStateOf(TextFieldValue("")) }
     val infomationErrorState = remember { mutableStateOf(false) }
 
-    ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
+    ConstraintLayout(modifier = Modifier.fillMaxSize(1f).verticalScroll(rememberScrollState())) {
         val (topBar, inFo, product, btn) = createRefs()
         Row(
             modifier = Modifier

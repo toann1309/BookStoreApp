@@ -3,9 +3,7 @@ package com.eritlab.jexmon.presentation.screens.profile_screen.component
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -64,6 +62,7 @@ fun ProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(15.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         val isLoading = state
         Row(
@@ -159,9 +158,9 @@ fun ProfileScreen(
                 .background(Color(0x8DB3B0B0), shape = RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
-//                    navController.navigate(AuthScreen.OnBoardingScreen.route)
+                    navController.navigate(AuthScreen.SignInScreen.route)
                     Toast
-                        .makeText(ctx, "Chức năng chưa làm", Toast.LENGTH_LONG)
+                        .makeText(ctx, "Bạn đã đăng xuất", Toast.LENGTH_LONG)
                         .show()
                 }
                 .padding(5.dp),
