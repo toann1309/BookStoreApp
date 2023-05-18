@@ -2,11 +2,8 @@ package com.eritlab.jexmon.presentation.screens.filter_screen.component.componen
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -42,7 +39,8 @@ fun FilterScreen(
     Spacer(modifier = Modifier.height(15.dp))
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(start = 15.dp, end = 15.dp, bottom = 10.dp),
+        .padding(start = 15.dp, end = 15.dp, bottom = 10.dp)
+        .verticalScroll(rememberScrollState()),
 //        .wrapContentSize(unbounded = true),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {

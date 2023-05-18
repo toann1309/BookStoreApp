@@ -6,7 +6,9 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
@@ -70,7 +72,7 @@ fun CheckoutBuyNow(
 
     var itemDrag by remember { mutableStateOf(0f) }
     var myData by remember { mutableStateOf(ItemDetail(buynowItem,buynowPrice.toDouble(),buynowId,buynowQuantity,buynowImage)) }
-    ConstraintLayout(modifier = Modifier.fillMaxSize(1f)) {
+    ConstraintLayout(modifier = Modifier.fillMaxSize(1f).verticalScroll(rememberScrollState())) {
         val (topBar, input, product, method, total) = createRefs()
         Row(
             modifier = Modifier

@@ -87,7 +87,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier
                 .padding(padding)
-                .verticalScroll(boxScrollState)
+//                .verticalScroll(boxScrollState)
                 .fillMaxSize(),
             ) {
             HomeNavGraph(navHostController = navController)
